@@ -1,28 +1,27 @@
-import pytest
-
-from project1.project1 import project1 as compute
+from project1.project1 import project1
 
 
-def test_given_badinput_when_project0_then_except():
-    # givin
-    input = 10
-
-    # when
-    with pytest.raises(TypeError):
-        compute(input)
-
-    # then
-    pass
-
-
-@pytest.mark.parametrize("input", ["who", "do", "you"])
-def test_given_goodinput_when_project0_then_match_pattern(input: str):
+def test_given_good_input_when_project1_then_output_tokens():
     # given
-    pass
+    input = " \t\r\n::\t:\n\n"
+    expected = (
+        '(COLON,":",2)\n(COLON,":",2)\n(COLON,":",2)\n(EOF,"",4)\nTotal Tokens = 4'
+    )
 
     # when
-    answer = compute(input)
+    result = project1(input)
 
     # then
-    expected = "Hello World " + input
-    assert expected == answer
+    assert expected == result
+
+
+def test_given_bad_input_when_project1_then_output_tokens_to_undefined():
+    # given
+    input = " \t\r\n:\nthis"
+    expected = '(COLON,":",2)\n(UNDEFINED,"this",3)\n\nTotal Tokens = Error on line 3'
+
+    # when
+    result = project1(input)
+
+    # then
+    assert expected == result

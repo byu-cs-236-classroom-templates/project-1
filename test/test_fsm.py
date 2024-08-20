@@ -1,45 +1,77 @@
-from fsm import FiniteStateMachine, StateTransitionFunction, TokenFactory
-from token import Token
+from project1.fsm import Colon, WhiteSpace, Eof
+from project1.token import Token
 
 
-class MatchWho(FiniteStateMachine):
-    def __init__(
-        self, initial_state: StateTransitionFunction, token_factory: TokenFactory
-    ) -> None:
-        super().__init__(initial_state, token_factory)
+class TestColon:
+    def test_given_non_colon_when_run_then_reject(self):
+        # given
+        colon = Colon()
+        input_string = "abc  \n \t"
 
-    def token(self, value: str) -> Token:
-        return self._token_factory(value)
+        # when
+        number_chars_read, _ = colon.run(input_string)
 
-    @staticmethod
-    def s0(char: str) -> StateTransitionFunction:
-        if char == "w":
-            return MatchWho.s1
-        else:
-            return FiniteStateMachine.reject
+        # then
+        assert 0 == number_chars_read
 
-    @staticmethod
-    def s1(char: str) -> StateTransitionFunction:
-        if char == "h":
-            return MatchWho.s2
-        else:
-            return FiniteStateMachine.reject
+    def test_given_colon_when_run_then_accept(self):
+        # given
+        whitespace = Colon()
+        input_string = ": \r\n\r\n \n \t \t  ab c d"
 
-    @staticmethod
-    def s2(char: str) -> StateTransitionFunction:
-        if char == "o":
-            return FiniteStateMachine.accept
-        else:
-            return FiniteStateMachine.reject
+        # when
+        number_chars_read, token = whitespace.run(input_string)
+
+        # then
+        assert 1 == number_chars_read
+        assert str(Token.colon(":")) == str(token)
 
 
-def test_given_MatchWho_when_run_with_who_then_accept():
-    # given
-    fsm = MatchWho(MatchWho.s0, Token.string)
+class TestEof:
+    def test_given_non_eof_when_run_then_reject(self):
+        # given
+        eof = Eof()
+        input_string = "abc  \n \t"
 
-    # when
-    characters_read, token = fsm.run("who", 42)
+        # when
+        number_chars_read, _ = eof.run(input_string)
 
-    # then
-    assert 3 == characters_read
-    assert str(Token.string("who", 42)) == str(token)
+        # then
+        assert 0 == number_chars_read
+
+    def test_given_eof_when_run_then_accept(self):
+        # given
+        eof = Eof()
+        input_string = ""
+
+        # when
+        number_chars_read, token = eof.run(input_string)
+
+        # then
+        assert 1 == number_chars_read
+        assert str(Token.eof("")) == str(token)
+
+
+class TestWhiteSpace:
+    def test_given_non_white_space_when_run_then_reject(self):
+        # given
+        whitespace = WhiteSpace()
+        input_string = "abc  \n \t"
+
+        # when
+        number_chars_read, _ = whitespace.run(input_string)
+
+        # then
+        assert 0 == number_chars_read
+
+    def test_given_white_space_when_run_then_accept(self):
+        # given
+        whitespace = WhiteSpace()
+        input_string = " \r\n\r\n \n \t \t  ab c d"
+
+        # when
+        number_chars_read, token = whitespace.run(input_string)
+
+        # then
+        assert 13 == number_chars_read
+        assert str(Token.whitespace(" \r\n\r\n \n \t \t  ")) == str(token)

@@ -2,37 +2,27 @@ import pytest
 from project1.token import Token
 
 
-def test_given_mismatched_value_when_Token_then_raise_exception():
-    # given
-    # "?" for ":"
-
-    # then
-    with pytest.raises(Exception):
-        # when
-        Token.colon("?", 42)
-
-
 str_test_inputs = [
-    (Token.colon(":", 42), '(COLON,":",42)'),
-    (Token.colon_dash(":-", 42), '(COLON_DASH,":-",42)'),
-    (Token.comma(",", 42), '(COMMA,",",42)'),
-    (Token.comment("# line comment", 42), '(COMMENT,"# line comment",42)'),
+    (Token.colon(":"), '(COLON,":",0)'),
+    (Token.colon_dash(":-"), '(COLON_DASH,":-",0)'),
+    (Token.comma(","), '(COMMA,",",0)'),
+    (Token.comment("# line comment"), '(COMMENT,"# line comment",0)'),
     (
-        Token.undefined("lots of undefined stuff", 42),
-        '(UNDEFINED,"lots of undefined stuff",42)',
+        Token.undefined("lots of undefined stuff"),
+        '(UNDEFINED,"lots of undefined stuff",0)',
     ),
-    (Token.eof("", 42), '(EOF,"",42)'),
-    (Token.facts("Facts", 42), '(FACTS,"Facts",42)'),
-    (Token.id("id", 42), '(ID,"id",42)'),
-    (Token.left_paren("(", 42), '(LEFT_PAREN,"(",42)'),
-    (Token.period(".", 42), '(PERIOD,".",42)'),
-    (Token.queries("Queries", 42), '(QUERIES,"Queries",42)'),
-    (Token.q_mark("?", 42), '(Q_MARK,"?",42)'),
-    (Token.right_paren(")", 42), '(RIGHT_PAREN,")",42)'),
-    (Token.rules("Rules", 42), '(RULES,"Rules",42)'),
-    (Token.schemes("Schemes", 42), '(SCHEMES,"Schemes",42)'),
-    (Token.string("string", 42), '(STRING,"string",42)'),
-    (Token.whitespace(" \t\r\n", 42), '(WHITESPACE," \t\r\n",42)'),
+    (Token.eof(""), '(EOF,"",0)'),
+    (Token.facts("Facts"), '(FACTS,"Facts",0)'),
+    (Token.id("id"), '(ID,"id",0)'),
+    (Token.left_paren("("), '(LEFT_PAREN,"(",0)'),
+    (Token.period("."), '(PERIOD,".",0)'),
+    (Token.queries("Queries"), '(QUERIES,"Queries",0)'),
+    (Token.q_mark("?"), '(Q_MARK,"?",0)'),
+    (Token.right_paren(")"), '(RIGHT_PAREN,")",0)'),
+    (Token.rules("Rules"), '(RULES,"Rules",0)'),
+    (Token.schemes("Schemes"), '(SCHEMES,"Schemes",0)'),
+    (Token.string("string"), '(STRING,"string",0)'),
+    (Token.whitespace(" \t\r\n"), '(WHITESPACE," \t\r\n",0)'),
 ]
 str_test_ids = [
     "colon",

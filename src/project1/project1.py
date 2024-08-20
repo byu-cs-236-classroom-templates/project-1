@@ -4,12 +4,15 @@ from project1.lexer import lexer
 
 
 def project1(input_string: str) -> str:
-    tokens: str = ""
-
+    result: str = ""
+    token_count = 0
     for i in lexer(input_string):
-        tokens += "\n" + str(i)
+        result += str(i) + "\n"
+        token_count += 1
+        if i.token_type == "UNDEFINED":
+            return result + "\nTotal Tokens = Error on line " + str(i.line_num)
 
-    return tokens
+    return result + "Total Tokens = " + str(token_count)
 
 
 def project1cli() -> None:

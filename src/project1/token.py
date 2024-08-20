@@ -24,7 +24,7 @@ TokenType = Literal[
 class Token:
     __slots__ = ["token_type", "value", "line_num"]
 
-    def __init__(self, token_type: TokenType, value: str, line_num: int):
+    def __init__(self, token_type: TokenType, value: str, line_num: int = 0):
         self.token_type: TokenType = token_type
         self.value: str = value
         self.line_num: int = line_num
@@ -35,83 +35,71 @@ class Token:
         )
 
     @staticmethod
-    def colon(value: Literal[":"], line_num: int) -> "Token":
-        assert ":" == value
-        return Token("COLON", value, line_num)
+    def colon(value: Literal[":"]) -> "Token":
+        return Token("COLON", value)
 
     @staticmethod
-    def colon_dash(value: Literal[":-"], line_num: int) -> "Token":
-        assert ":-" == value
-        return Token("COLON_DASH", value, line_num)
+    def colon_dash(value: Literal[":-"]) -> "Token":
+        return Token("COLON_DASH", value)
 
     @staticmethod
-    def comma(value: Literal[","], line_num: int) -> "Token":
-        assert "," == value
-        return Token("COMMA", value, line_num)
+    def comma(value: Literal[","]) -> "Token":
+        return Token("COMMA", value)
 
     @staticmethod
-    def comment(value: str, line_num: int) -> "Token":
-        return Token("COMMENT", value, line_num)
+    def comment(value: str) -> "Token":
+        return Token("COMMENT", value)
 
     @staticmethod
-    def undefined(value: str, line_num: int) -> "Token":
-        return Token("UNDEFINED", value, line_num)
+    def undefined(value: str) -> "Token":
+        return Token("UNDEFINED", value)
 
     @staticmethod
-    def eof(value: Literal[""], line_num: int) -> "Token":
-        assert "" == value
-        return Token("EOF", value, line_num)
+    def eof(value: Literal[""]) -> "Token":
+        return Token("EOF", value)
 
     @staticmethod
-    def facts(value: Literal["Facts"], line_num: int) -> "Token":
-        assert "Facts" == value
-        return Token("FACTS", value, line_num)
+    def facts(value: Literal["Facts"]) -> "Token":
+        return Token("FACTS", value)
 
     @staticmethod
-    def id(value: str, line_num: int) -> "Token":
-        return Token("ID", value, line_num)
+    def id(value: str) -> "Token":
+        return Token("ID", value)
 
     @staticmethod
-    def left_paren(value: Literal["("], line_num: int) -> "Token":
-        assert "(" == value
-        return Token("LEFT_PAREN", value, line_num)
+    def left_paren(value: Literal["("]) -> "Token":
+        return Token("LEFT_PAREN", value)
 
     @staticmethod
-    def period(value: Literal["."], line_num: int) -> "Token":
-        assert "." == value
-        return Token("PERIOD", value, line_num)
+    def period(value: Literal["."]) -> "Token":
+        return Token("PERIOD", value)
 
     @staticmethod
-    def queries(value: Literal["Queries"], line_num: int) -> "Token":
-        assert "Queries" == value
-        return Token("QUERIES", value, line_num)
+    def queries(value: Literal["Queries"]) -> "Token":
+        return Token("QUERIES", value)
 
     @staticmethod
-    def q_mark(value: Literal["?"], line_num: int) -> "Token":
-        assert "?" == value
-        return Token("Q_MARK", value, line_num)
+    def q_mark(value: Literal["?"]) -> "Token":
+        return Token("Q_MARK", value)
 
     @staticmethod
-    def right_paren(value: Literal[")"], line_num: int) -> "Token":
-        assert ")" == value
-        return Token("RIGHT_PAREN", ")", line_num)
+    def right_paren(value: Literal[")"]) -> "Token":
+        return Token("RIGHT_PAREN", value)
 
     @staticmethod
-    def rules(value: Literal["Rules"], line_num: int) -> "Token":
-        assert "Rules" == value
-        return Token("RULES", "Rules", line_num)
+    def rules(value: Literal["Rules"]) -> "Token":
+        return Token("RULES", value)
 
     @staticmethod
-    def schemes(value: Literal["Schemes"], line_num: int) -> "Token":
-        assert "Schemes" == value
-        return Token("SCHEMES", "Schemes", line_num)
+    def schemes(value: Literal["Schemes"]) -> "Token":
+        return Token("SCHEMES", value)
 
     @staticmethod
-    def string(value: str, line_num: int) -> "Token":
-        return Token("STRING", value, line_num)
+    def string(value: str) -> "Token":
+        return Token("STRING", value)
 
     @staticmethod
-    def whitespace(value: str, line_num: int) -> "Token":
+    def whitespace(value: str) -> "Token":
         for i in value:
             assert i == " " or i == "\t" or i == "\n" or i == "\r"
-        return Token("WHITESPACE", value, line_num)
+        return Token("WHITESPACE", value)
