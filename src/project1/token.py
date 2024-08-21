@@ -1,4 +1,4 @@
-from typing import Literal
+from typing import Literal, Any
 
 TokenType = Literal[
     "COLON",
@@ -33,6 +33,15 @@ class Token:
         return (
             "(" + self.token_type + ',"' + self.value + '",' + str(self.line_num) + ")"
         )
+
+    def __eq__(self, other: Any) -> bool:
+        if isinstance(other, Token):
+            return (
+                self.token_type == other.token_type
+                and self.value == other.value
+                and self.line_num == other.line_num
+            )
+        return False
 
     @staticmethod
     def colon(value: Literal[":"]) -> "Token":
