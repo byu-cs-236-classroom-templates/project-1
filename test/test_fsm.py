@@ -16,11 +16,11 @@ class TestColon:
 
     def test_given_colon_when_run_then_accept(self):
         # given
-        whitespace = Colon()
+        colon = Colon()
         input_string = ": \r\n\r\n \n \t \t  ab c d"
 
         # when
-        number_chars_read, token = run_fsm(whitespace, input_string)
+        number_chars_read, token = run_fsm(colon, input_string)
 
         # then
         assert 1 == number_chars_read
