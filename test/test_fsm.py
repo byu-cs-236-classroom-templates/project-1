@@ -1,4 +1,4 @@
-from project1.fsm import Colon, WhiteSpace, Eof
+from project1.fsm import run_fsm, Colon, WhiteSpace, Eof
 from project1.token import Token
 
 
@@ -9,7 +9,7 @@ class TestColon:
         input_string = "abc  \n \t"
 
         # when
-        number_chars_read, _ = colon.run(input_string)
+        number_chars_read, _ = run_fsm(colon, input_string)
 
         # then
         assert 0 == number_chars_read
@@ -20,7 +20,7 @@ class TestColon:
         input_string = ": \r\n\r\n \n \t \t  ab c d"
 
         # when
-        number_chars_read, token = whitespace.run(input_string)
+        number_chars_read, token = run_fsm(whitespace, input_string)
 
         # then
         assert 1 == number_chars_read
@@ -34,7 +34,7 @@ class TestEof:
         input_string = "abc  \n \t"
 
         # when
-        number_chars_read, _ = eof.run(input_string)
+        number_chars_read, _ = run_fsm(eof, input_string)
 
         # then
         assert 0 == number_chars_read
@@ -45,7 +45,7 @@ class TestEof:
         input_string = ""
 
         # when
-        number_chars_read, token = eof.run(input_string)
+        number_chars_read, token = run_fsm(eof, input_string)
 
         # then
         assert 1 == number_chars_read
@@ -59,7 +59,7 @@ class TestWhiteSpace:
         input_string = "abc  \n \t"
 
         # when
-        number_chars_read, _ = whitespace.run(input_string)
+        number_chars_read, _ = run_fsm(whitespace, input_string)
 
         # then
         assert 0 == number_chars_read
@@ -70,7 +70,7 @@ class TestWhiteSpace:
         input_string = " \r\n\r\n \n \t \t  ab c d"
 
         # when
-        number_chars_read, token = whitespace.run(input_string)
+        number_chars_read, token = run_fsm(whitespace, input_string)
 
         # then
         assert 13 == number_chars_read

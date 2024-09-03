@@ -1,7 +1,7 @@
 from typing import Iterator
 
 from project1.token import Token, TokenType
-from project1.fsm import FiniteStateMachine, Colon, Eof, WhiteSpace
+from project1.fsm import run_fsm, FiniteStateMachine, Colon, Eof, WhiteSpace
 
 
 def _get_new_lines(value: str) -> int:
@@ -12,7 +12,7 @@ def _get_token(input_str: str, fsms: list[FiniteStateMachine]) -> Token:
     token: Token = Token.undefined(input_str)
     max_chars_read: int = 0
     for i in fsms:
-        chars_read, token_i = i.run(input_str)
+        chars_read, token_i = run_fsm(i, input_str)
         if chars_read > max_chars_read:
             max_chars_read, token = chars_read, token_i
     return token
