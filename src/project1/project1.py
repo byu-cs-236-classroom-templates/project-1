@@ -22,13 +22,15 @@ def project1(input_string: str) -> str:
     Returns:
         the token stream, as a string, from the input string
 
-    >>> from project1.project1 import project1
-    >>> token_stream = project1('\\n\\n::')
-    >>> print(token_stream)
-    (COLON,":",3)
-    (COLON,":",3)
-    (EOF,"",3)
-    Total Tokens = 3
+    Example Usage:
+
+        >>> from project1.project1 import project1
+        >>> token_stream = project1('\\n\\n::')
+        >>> print(token_stream)
+        (COLON,":",3)
+        (COLON,":",3)
+        (EOF,"",3)
+        Total Tokens = 3
     """
     result: str = ""
     token_count = 0
