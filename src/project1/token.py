@@ -1,5 +1,8 @@
 from typing import Literal, Any
 
+# `TokenType` is an algebraic data type, and more specifically, it is a "sum type". A sum type gives a list of allowed types, or in this case, allowed string literals that belong to `TokenType`.
+# The mypy tool uses `TokenType` to statically check that the string values used to create tokens are type safe. For example, when using `Token.colon(value)` to create a colon token, mypy must be able to prove that `value` is equivalent to ":".
+# `TokenType` is complete meaning that it has all the allowed tokens for project 1.
 TokenType = Literal[
     "COLON",
     "COLON_DASH",
@@ -24,7 +27,11 @@ TokenType = Literal[
 class Token:
     __slots__ = ["token_type", "value", "line_num"]
 
-    def __init__(self, token_type: TokenType, value: str, line_num: int = 0):
+    def __init__(self, token_type: TokenType, value: str, line_num: int = 0) -> None:
+        """Initialize a `Token` with its type, value, and line number
+
+        Use the static factory methods to create instances of `Token` as they restrict tokens to those allowed by `TokenType`
+        """
         self.token_type: TokenType = token_type
         self.value: str = value
         self.line_num: int = line_num
