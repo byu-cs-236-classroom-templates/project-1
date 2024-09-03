@@ -37,3 +37,6 @@ exclude = [
 ]
 check_untyped_defs = true
 strict = true
+
+[tool.pytest.ini_options]
+addopts = "--doctest-modules --doctest-report ndiff"
