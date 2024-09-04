@@ -91,6 +91,17 @@ class Token:
         whitespace(value: str):
             Returns a token af type "WHITESPACE" with value given by the parameter
 
+    Example usage
+
+        >>> from project1.token import Token
+        >>> colon = Token.colon(":")
+        >>> colon.line_num = 10
+        >>> print(colon)
+        (COLON,":",10)
+        >>> id = Token.id("id")
+        >>> id.line_num = 42
+        >>> print(id)
+        (ID,"id",42)
     """
 
     __slots__ = ["token_type", "value", "line_num"]
