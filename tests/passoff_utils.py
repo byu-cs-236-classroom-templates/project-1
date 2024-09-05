@@ -3,7 +3,7 @@ from project1.project1 import project1 as compute  # type: ignore[import-untyped
 
 
 _TEST_FUNC = compute
-_TEST_ROOT_DIR = "./test/resources/project1-passoff/"
+_TEST_ROOT_DIR = "./tests/resources/project1-passoff/"
 _ANSWER_PREFIX = "answer"
 _ANSWER_EXTENSION = ".txt"
 _INPUT_PREFIX = "input"
