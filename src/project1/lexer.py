@@ -75,10 +75,10 @@ def lexer(input_string: str) -> Iterator[Token]:
     characters, the one that comes first in the list of FSMs, `fsms`, wins.
 
     Args:
-        input_string (str): Input string for token generation.
+        input_string: Input string for token generation.
 
     Yields:
-        token (Token): The current token resulting from the string.
+        token: The current token resulting from the string.
     """
     fsms: list[FiniteStateMachine] = [Colon(), Eof(), WhiteSpace()]
     hidden: list[TokenType] = ["WHITESPACE"]

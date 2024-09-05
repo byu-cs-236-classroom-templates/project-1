@@ -32,8 +32,8 @@ def run_fsm(fsm: "FiniteStateMachine", input_string: str) -> tuple[int, Token]:
 
     Args:
 
-        fsm (FiniteStateMachine): the FSM to run
-        input_string (str): the string to use as input
+        fsm: the FSM to run
+        input_string: the string to use as input
 
     Returns:
 
