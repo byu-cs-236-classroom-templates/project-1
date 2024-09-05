@@ -3,7 +3,7 @@
 The `lexer(input_string: str)` function is the entry point. It generates a
 stream of tokens from the `input_string`.
 
-Typical usage example:
+Examples:
 
     >>> from project1.lexer import lexer
     >>> input_string = ":\\n  \\n:"
@@ -75,12 +75,10 @@ def lexer(input_string: str) -> Iterator[Token]:
     characters, the one that comes first in the list of FSMs, `fsms`, wins.
 
     Args:
-
-        input_string (str): input string for token generation
+        input_string (str): Input string for token generation.
 
     Yields:
-
-        token (Token): the current token resulting from the string
+        token (Token): The current token resulting from the string.
     """
     fsms: list[FiniteStateMachine] = [Colon(), Eof(), WhiteSpace()]
     hidden: list[TokenType] = ["WHITESPACE"]

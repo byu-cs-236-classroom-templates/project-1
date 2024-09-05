@@ -1,11 +1,7 @@
-"""Function to call lexer and got tokens
+"""Function to call lexer and get tokens.
 
-Functions:
-
-    project1(input_string: str):
-        Builds token stream for the input and returns the stream as a string
-     project1cli():
-        Entry point for the package that expects a file with the input as a command line argument
+These are the two project level entry points: `project1` and `project1cli`.
+All the pass-off tests use `project1`.
 """
 
 from sys import argv
@@ -14,16 +10,15 @@ from project1.lexer import lexer
 
 
 def project1(input_string: str) -> str:
-    """Build the token stream for a given input
+    """Build the token stream for a given input.
 
-    Parameters:
-        input_string (str): the string to tokenize
+    Args:
+        input_string (str): The string to tokenize.
 
     Returns:
-        the token stream, as a string, from the input string
+        out: the token stream, as a string, from the input string
 
-    Example Usage:
-
+    Examples:
         >>> from project1.project1 import project1
         >>> token_stream = project1('\\n\\n::')
         >>> print(token_stream)
@@ -44,16 +39,23 @@ def project1(input_string: str) -> str:
 
 
 def project1cli() -> None:
-    """Build the token stream from the contents of a file
+    """Build the token stream from the contents of a file.
 
-    From the integrated terminal:
+    `project1cli` is only called from the command line in the integrated terminal.
+    Prints the token stream resulting from the contents of the named file.
 
+    Args:
+        argv (list[str]): Generated from the command line and needs to name the input file.
+
+    Examples:
+    ```
     $ project1 t.txt
     (COLON,":",2)
     (COLON,":",2)
     (COLON,":",2)
     (EOF,"",5)
     Total Tokens = 4
+    ```
     """
     if len(argv) == 2:
         input_file = argv[1]

@@ -61,12 +61,9 @@ class Token:
     the line where it was found in the input.
 
     Attributes:
-        token_type: TokenType
-            the type of this token
-        value: str
-            the string associated with the token
-        line_num: int
-            the line number associated with the token -- where it starts in the input
+        token_type (TokenType): The syntactic type of this token.
+        value (str): The string associated with the token.
+        line_num (int): The line number associated with the token -- where it starts in the input.
     """
 
     __slots__ = ["token_type", "value", "line_num"]
@@ -78,9 +75,9 @@ class Token:
         `__init__` directly (e.g., `Token.colon(":")`). See _Example_ in module docstring.
 
         Args:
-            token_type: the type of this token
-            value: the value to use for this taken
-            line_num: the line number from the input where the token value begins
+            token_type: The type of this token.
+            value: The value to use for this taken.
+            line_num: The line number from the input where the token value begins.
         """
         self.token_type: TokenType = token_type
         self.value: str = value
