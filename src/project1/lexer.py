@@ -26,7 +26,9 @@ def _get_new_lines(value: str) -> int:
 
 
 def _get_token(input_str: str, fsms: list[FiniteStateMachine]) -> Token:
-    token: Token = Token.undefined(input_str)
+    token: Token = (
+        Token.undefined(input_str[0]) if len(input_str) > 0 else Token.undefined("")
+    )
     max_chars_read: int = 0
     for i in fsms:
         chars_read, token_i = run_fsm(i, input_str)
