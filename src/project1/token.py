@@ -84,6 +84,10 @@ class Token:
         self.line_num: int = line_num
 
     def __str__(self) -> str:
+        """Return the string representation of the token
+
+        This function makes it so that `str(token)` works as expected.
+        """
         return (
             "(" + self.token_type + ',"' + self.value + '",' + str(self.line_num) + ")"
         )
