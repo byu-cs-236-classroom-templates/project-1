@@ -1,12 +1,16 @@
 # Project 1
-In this project, we will be lexing input text into Token classes. We will do this by creating finite state automata and a finite state
-machine to run them on the input.
+
+This project takes as input a string for a Datalog program and turns it onto a sequence of _tokens_ that form the input to a Datalog parser. A token is a representation of a syntactic element used to define a grammar such as a keyword or an identifier -- more on grammars later in the course.
+
+The process to turn the input string into a token stream relies on giving the input string to a set of finite state machines (FSMs), each FSM in the set able to detect a specific syntactic element of Datalog, to see which token should be generated next with the part of the input string for that token. A state for an FSM takes as input the number of characters from the input read thus far and the next character to try to read. The state returns the next state for the FSM and the number of characters it has now read from the input string. All FSMs eventually end in an accept or reject state from which an appropriate token can be created.
+
+The algorithm, and examples for implementing the FSMs and then iterating over the FSMs to determine which token to produce is in the lecture notes for Project 1 on [learningsuite.byu.edu](https://learningsuite.byu.edu) -- see the _Lectures_ in the _Content_ pane. **Before proceeding further, please review the Project 1 lecture slides with the associated Jupyter notebooks.**
 
 ## Developer Setup
 
-There is no need to install any vscode extensions. These should all still be present and active from project 0. You do need to create the virtual environment etc. Follow the same pattern as in Project 0:
+There is no need to install any vscode extensions. These should all still be present and active from Project 0. You do need to create the virtual environment etc. Follow the same pattern as in Project 0:
 
-  * Create a virtual environmnt
+  * Create a virtual environment
   * Install the package in edit mode: `pip install --editable ".[dev]"`
   * Install pre-commit: `pre-commit install`
 
@@ -23,7 +27,7 @@ The above should result in a `project1` executable that is run from the command 
 
 ### Reminder
 
-Please do not edit any of the following files or directories as they are related to _Autograding_ and _pass-off_:
+Please do not edit any of the following files or directories as they are related to _auto-grading_ and _pass-off_:
 
   * `config_test.sh`
   * `./tests/test_passoff_20.py`
@@ -80,7 +84,7 @@ The `test_token.py` file checks that `str(token)` works as expected for each tok
 
 ### fsm.py
 
-This file implements finite state machines (FSMs) and how to run a finite state machine. A few FSMs and the `run_fsm` function are implemented for you. the implemented FSMs are meant to be examples of what you need to do for the other FSMs.
+This file implements an FSM and how to run an FSM. A few FSMs and the `run_fsm` function are implemented for you. the implemented FSMs are meant to be examples of what you need to do for the other FSMs.
 
 The `run_fsm` is what steps an FSM until it accepts or rejects. The details are in the docstring that you can read directly in the file or using the `help` function in the Python interpreter.
 
@@ -134,7 +138,7 @@ The entry point for the auto-grader and the `project1` command. See the docstrin
 
 ## Where to start
 
-Here is the suggested order for project 1:
+Here is the suggested order for Project 1:
 
 1. Run the tests in `test_lexer.py` -- they should fail
 1. Implement the `lexer` function in `lexer.py` -- `test_lexer.py` should pass when the implementation is done
@@ -176,7 +180,7 @@ $ pytest -k project1.project1.project1
 
 ## Pass-off and Submission
 
-The minimum standard for this project is **bucket 80**. That means that if all the tests pass in all buckets upto an including bucket 80, then the next project can be started safely.
+The minimum standard for this project is **bucket 80**. That means that if all the tests pass in all buckets up to an including bucket 80, then the next project can be started safely.
 
 The Project 1 submission follows that of Project 0:
 
