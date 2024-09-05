@@ -31,7 +31,7 @@ def lexer(input_string: str) -> Iterator[Token]:
     hidden: list[TokenType] = ["WHITESPACE"]
     line_num: int = 1
     token: Token = Token.undefined("")
-    while token.token_type != "EOF":
+    while not _is_last_token(token):
         token = _get_token(input_string, fsms)
         token.line_num = line_num
         line_num = line_num + _get_new_lines(token.value)
@@ -44,6 +44,8 @@ def lexer(input_string: str) -> Iterator[Token]:
     The `_get_token` function should return the token from the FSM that reads
     the most characters. In the case of two FSMs reading the same number of
     characters, the one that comes first in the list of FSMs, `fsms`, wins.
+    Some care must be given to determining when the _last_ token has been
+    generated and how to update the new `line_num` for the next token.
 
     Args:
         input_string: Input string for token generation.
