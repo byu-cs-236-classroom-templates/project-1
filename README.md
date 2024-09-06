@@ -190,7 +190,7 @@ The Project 1 submission follows that of Project 0:
   * Commit your solution on the master branch
   * Push the commit to GitHub -- that should trigger the auto-grader
   * Goto [learningsuite.byu.edu](https://learningsuite.byu.edu) at _Assignments_ &rarr; _Projects_ &rarr; _Project 1_ to submit your GitHub ID and Project 1 URL for grading.
-  * Goto the Project 1 URL, find the green checkmark or red x, and click it to confirm the auto-grader scores matches the pass-off results from your system.
+  * Goto the Project 1 URL, find the green checkmark or red x, and click it to confirm the auto-grader score matches the pass-off results from your system.
 
 ### Branches
 
