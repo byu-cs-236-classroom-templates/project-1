@@ -8,13 +8,15 @@ The algorithm, and examples for implementing the FSMs and then iterating over th
 
 ## Developer Setup
 
-There is no need to install any vscode extensions. These should all still be present and active from Project 0. You do need to create the virtual environment etc. Follow the same pattern as in Project 0:
+The first step is to clone the repository created by GitHub Classroom when the assignment was accepted in a sensible directory. In the vscode terminal, `git clone <URL>` where `<URL>` is the one from GitHub Classroom after accepting the assignment. Or open a new vscode window, select _Clone Git Repository_, and paste the link they get when they hover over the "<> Code ▼" and copy the url
+
+There is no need to install any vscode extensions. These should all still be present and active from the previous project. You do need to create the virtual environment, install the package, and install pre-commit. For a reminder to how that is done, see on [learningsuite.byu.edu](https://learningsuite.byu.edu) _Content_ &rarr; _Projects_ &rarr; _Projects Cheat Sheet_
 
   * Create a virtual environment
   * Install the package in edit mode: `pip install --editable ".[dev]"`
   * Install pre-commit: `pre-commit install`
 
-The above should result in a `project1` executable that is run from the command line in an integrated terminal. As before, be sure the integrated terminal is in the virtual environment (see project 0 `README.md`).
+The above should result in a `project1` executable that is run from the command line in an integrated terminal. As before, be sure the integrated terminal is in the virtual environment
 
 ## Files
 
@@ -39,7 +41,7 @@ Please do not edit any of the following files or directories as they are related
 
 ## Overview
 
-The project is divided into the following modules each representing a key component:
+The project is divided into the following modules each representing a key component (see the Jupyter notebook tutorials for examples of using `token.py` and understanding `fsm.py` on [learningsuite.byu.edu](https://learningsuite.byu.edu) at _Content_ &rarr; _Project 1_ &rarr; _Project Description and Specification_ and _Content_ &rarr; _Lectures: Reading, Topics, Slides_ &rarr; _September Lectures_ &rarr; _FSMs in Project 1_):
 
   * `src/project1/token.py`: defines the `Token` class with methods to create tokens of each type needed for Datalog
   * `src/project1/fsm.py`: defines the `FiniteStateMachineClass` and how to run an instance of a `FiniteStateMachine`
@@ -72,11 +74,11 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> help(lexer)
 ```
 
-THe above example will show a different docstring. The first example is the docstring for the module. This second example is the docstring for the function `lexer`. There are several examples of how to import things in the package throughout the provided code.
+The above example will show a different docstring. The first example is the docstring for the module. This second example is the docstring for the function `lexer`. There are several examples of how to import things in the package throughout the provided code.
 
 ### token.py
 
-The `Token` class is fully implemented for you. Take a moment now to look at the code and read the docstrings. New is the use of the algebraic sum type `TokenType` as well as the other uses of the `Literal` type. These make it so `mypy` is able to type check that only tokens of type `TokenType` can ever be created and that when creating fixed string tokens such as COLON the value associated with that token type matches what the token should be.
+The `Token` class is fully implemented for you. Take a moment now to look at the code, read the docstrings, and review how the Token class was used in the Jupyter notebook referenced the [Overview](#overview). New is the use of the algebraic sum type `TokenType` as well as the other uses of the `Literal` type. These make it so `mypy` is able to type check that only tokens of type `TokenType` can ever be created and that when creating fixed string tokens such as COLON the value associated with that token type matches what the token should be.
 
 Be sure you understand the examples in the docstrings before moving on. These can be run in the Python interpreter in the terminal by recreating the commands.
 
@@ -84,9 +86,10 @@ The `test_token.py` file checks that `str(token)` works as expected for each tok
 
 ### fsm.py
 
-This file implements an FSM and how to run an FSM. A few FSMs and the `run_fsm` function are implemented for you. the implemented FSMs are meant to be examples of what you need to do for the other FSMs.
+This file implements an FSM and how to run an FSM. A few FSMs and the `run_fsm` function are implemented for you. The implemented FSMs are meant to be examples of what you need to do for the other FSMs.
 
-The `run_fsm` is what steps an FSM until it accepts or rejects. The details are in the docstring that you can read directly in the file or using the `help` function in the Python interpreter.
+The `run_fsm` is what steps an FSM until it accepts or rejects.
+This `run_fsm` function is similar to `run` function in the Jupyter notebook tutorial and is adapted to the revised `FiniteStateMachine` class. The details are in the docstring that you can read directly in the file or using the `help` function in the Python interpreter.
 
 ```
 $ python
@@ -106,7 +109,7 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> help(FiniteStateMachine)
 ```
 
-The are three FSMs already provided with the project with tests in `test_fsm.py` for each one: `Colon`, `Eof`, and `Whitespace`. These are complete, and may be used _as is_. They are also examples of how to create the other FSMs required for the projects. There are **two tests** for each FSM: one that should reject and one that should accept. **Follow this pattern of testing for the other FSMs that you must implement.**
+The are three FSMs already provided with the project with tests in `test_fsm.py` for each one: `Colon`, `Eof`, and `Whitespace`. These are complete, and may be used _as is_. They are also examples of how to create the other FSMs required for the projects. There are **two tests** for each FSM: one that should reject and one that should accept. You can find these tests in the `tests` directory in the file called `test_fsm.py`. **Follow this pattern of testing for the other FSMs that you must implement.**
 
 ### lexer.py
 
@@ -180,13 +183,14 @@ $ pytest -k project1.project1.project1
 
 ## Pass-off and Submission
 
-The minimum standard for this project is **bucket 80**. That means that if all the tests pass in all buckets up to an including bucket 80, then the next project can be started safely.
+The minimum standard for this project is **bucket 80**. That means that if all the tests pass in all buckets up to and including bucket 80, then the next project can be started safely.
 
 The Project 1 submission follows that of Project 0:
 
   * Commit your solution on the master branch
   * Push the commit to GitHub -- that should trigger the auto-grader
-  * Goto [learningsuite.byu.edu](https://learningsuite.byu.edu) to submit your GitHub ID and Project 1 URL for grading.
+  * Goto [learningsuite.byu.edu](https://learningsuite.byu.edu) at _Assignments_ &rarr; _Projects_ &rarr; _Project 1_ to submit your GitHub ID and Project 1 URL for grading.
+  * Goto the Project 1 URL, find the green checkmark or red x, and click it to confirm the auto-grader scores matches the pass-off results from your system.
 
 ### Branches
 
