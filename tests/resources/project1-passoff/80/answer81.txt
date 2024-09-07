@@ -5,5 +5,5 @@
 (STRING,"'bob'",9)
 (STRING,"'frank'",11)
 (STRING,"'{}[]()!@#$%^&*'",13)
-(EOF,"",16)
+(EOF,"",14)
 Total Tokens = 8

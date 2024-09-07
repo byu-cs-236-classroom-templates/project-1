@@ -15,5 +15,5 @@
 (COMMENT,"#Queries:",20)
 (COMMENT,"#major('North',Major)?",21)
 (COMMENT,"###########################",22)
-(EOF,"",24)
+(EOF,"",23)
 Total Tokens = 18

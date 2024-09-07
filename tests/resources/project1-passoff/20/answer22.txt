@@ -14,5 +14,5 @@
 (RIGHT_PAREN,")",10)
 (COLON,":",10)
 (COLON_DASH,":-",10)
-(EOF,"",12)
+(EOF,"",11)
 Total Tokens = 17

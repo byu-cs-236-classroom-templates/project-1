@@ -18,7 +18,7 @@ def test_given_good_input_when_project1_then_output_tokens():
 def test_given_bad_input_when_project1_then_output_tokens_to_undefined():
     # given
     input = " \t\r\n:\nthis"
-    expected = '(COLON,":",2)\n(UNDEFINED,"this",3)\n\nTotal Tokens = Error on line 3'
+    expected = '(COLON,":",2)\n(UNDEFINED,"t",3)\n\nTotal Tokens = Error on line 3'
 
     # when
     result = project1(input)

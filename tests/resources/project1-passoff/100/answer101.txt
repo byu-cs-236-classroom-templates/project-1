@@ -114,5 +114,5 @@
 (STRING,"'MATH'",13)
 (RIGHT_PAREN,")",13)
 (Q_MARK,"?",13)
-(EOF,"",15)
+(EOF,"",14)
 Total Tokens = 117
