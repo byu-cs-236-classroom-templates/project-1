@@ -6,7 +6,7 @@ from project1.lexer import lexer
 inputs = [
     (": ", [Token("COLON", ":", 1), Token("EOF", "", 1)]),
     (" \t\r\n\n: ", [Token("COLON", ":", 3), Token("EOF", "", 3)]),
-    ("   undefined\n\t", [Token("UNDEFINED", "u", 1)]),
+    ("   !undefined\n\t", [Token("UNDEFINED", "!", 1)]),
 ]
 ids = [
     "colon",
