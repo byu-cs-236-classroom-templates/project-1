@@ -24,7 +24,7 @@ class TestColon:
 
         # then
         assert 1 == number_chars_read
-        assert str(Token.colon(":")) == str(token)
+        assert Token.colon(":") == token
 
 
 class TestEof:
@@ -49,7 +49,7 @@ class TestEof:
 
         # then
         assert 1 == number_chars_read
-        assert str(Token.eof("")) == str(token)
+        assert Token.eof("") == token
 
 
 class TestWhiteSpace:
@@ -74,4 +74,4 @@ class TestWhiteSpace:
 
         # then
         assert 13 == number_chars_read
-        assert str(Token.whitespace(" \r\n\r\n \n \t \t  ")) == str(token)
+        assert Token.whitespace(" \r\n\r\n \n \t \t  ") == token
