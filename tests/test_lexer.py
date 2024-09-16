@@ -16,10 +16,12 @@ ids = [
 
 
 @pytest.mark.parametrize("test_input, expected", inputs, ids=ids)
-def test_given_input_when_lexer_then_match_tokens(test_input: str, expected: list[str]):
+def test_given_input_when_lexer_then_match_tokens(
+    test_input: str, expected: list[Token]
+):
     # given
     # input
-    print(test_input)
+
     # went
     tokens = [i for i in lexer(test_input)]
 
