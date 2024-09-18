@@ -1,3 +1,4 @@
+# type: ignore
 import os
 from project1.project1 import project1 as compute  # type: ignore[import-untyped]
 

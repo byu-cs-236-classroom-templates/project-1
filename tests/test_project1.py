@@ -1,3 +1,4 @@
+# type: ignore
 from project1.project1 import project1
 
 

@@ -1,3 +1,4 @@
+# type: ignore
 import pytest
 
 from project1.token import Token
