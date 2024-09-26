@@ -18,6 +18,13 @@ There is no need to install any vscode extensions. These should all still be pre
 
 The above should result in a `project1` executable that is run from the command line in an integrated terminal. As before, be sure the integrated terminal is in the virtual environment
 
+### WARNING
+
+  * Be sure that the `conda` environment is not active when setting up the project. It's active when there is a `(base)` annotation next to the terminal prompt. The `conda deactivate` command will exit that environment.
+  * Be sure the Python version is at least 3.11 -- `python --version`.
+  * Open the project folder in vscode when working on the project, and not a folder above it or below it, otherwise the paths for the pass-off tests will not work -- the common error is _"no project2 module found"_.
+  * Be sure that vscode is using the virtual environment in the project folder: choose `Python Select Interpreter` from the command pallette and select the Python in the `.venv` folder -- its usually the first option if vscode opened that folder as the workspace.
+
 ## Files
 
   * `README.md`: overview and directions
