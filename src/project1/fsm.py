@@ -7,7 +7,7 @@ accepts or rejects to return the resulting characters read and token.
 Note: An FSM normally reads until there are no more characters left in the input
 and then it returns `accept` or `reject`. In our application to lexical analysis
 we want the FSM to stop reading as soon as it is able to `accept` or `reject`.
-As such, for our application, the end of input is marked as soon when the FSM
+As such, for our application, the end of input is marked when the FSM
 arrives to the `accept` state or the `reject` state rather than the end of input.
 """
 
@@ -18,7 +18,7 @@ from project1.token import Token
 State = Callable[[str], "State"]
 """
 `State` is a function that takes the character to read as a `str` and returns
-the next `State`: `State` : `I` -> `State`.
+the next `State` (`State` : `I` -> `State`).
 """
 
 
@@ -26,8 +26,10 @@ def run_fsm(fsm: "FiniteStateMachine", input_string: str) -> tuple[int, Token]:
     """Run an FSM and return the number of characters read with the token.
 
     Run the FSM until it accepts or rejects while counting the number of
-    characters read. The return value is a tuple of the number of characters
-    and the resulting token if the FSM accepts.
+    characters read. The return value is a tuple of the total number of
+    characters read and the resulting token if the FSM accepts. The total number
+    of characters read does not include the character that resulted in the
+    accept. A reject always reads no characters.
 
     Args:
 
