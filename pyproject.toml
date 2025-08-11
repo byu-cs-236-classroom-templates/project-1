@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=69.5.1"]
+requires = ["setuptools>=74.1.2"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -16,17 +16,18 @@ project1 = "project1.project1:project1cli"
 
 [project.optional-dependencies]
 dev = [
-  "pytest>=8.2.0",
+  "pytest",
   "mypy",
   "pre-commit",
 ]
 
 classroom = [
-  "pytest>=8.3.1",
+  "pytest",
 ]
 
 [tool.ruff]
 target-version = "py312"
+lint.extend-select = ["I","FIX002", "TD001"]
 
 [tool.nitpick]
 style = "https://raw.githubusercontent.com/wemake-services/wemake-python-styleguide/master/styles/mypy.toml"

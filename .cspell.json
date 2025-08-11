@@ -1,0 +1,24 @@
+{
+  "version": "0.2",
+  "language": "en",
+  "ignorePaths": [
+    ".devcontainer/",
+    ".pre-commit-config.yaml"
+  ],
+  "words": [
+    "configfile",
+    "Datalog",
+    "docstrings",
+    "doctest",
+    "doctests",
+    "learningsuite",
+    "myproject",
+    "mypy",
+    "passoff",
+    "pluggy",
+    "pyproject",
+    "pytest",
+    "rootdir",
+    "venv"
+  ]
+}

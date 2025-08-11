@@ -15,7 +15,7 @@ repos:
     -   id: ruff
         name: ruff
         description: "Run 'ruff' for extremely fast Python linting"
-        entry: ruff check --force-exclude
+        entry: ruff check --fix --force-exclude
         language: python
         types_or: [python, pyi]
         args: []
@@ -32,14 +32,14 @@ repos:
         require_serial: true
         additional_dependencies: []
         minimum_pre_commit_version: "2.9.2"
+-   repo: https://github.com/Lucas-C/pre-commit-hooks
+    rev: v1.5.5
+    hooks:
+    -   id: remove-crlf
+    -   id: remove-tabs
 -   repo: https://github.com/pre-commit/mirrors-mypy
     rev: 'v1.11.2'  # Use the sha / tag you want to point at
     hooks:
     -   id: mypy
         args: ["--strict", "--follow-imports=silent", "--ignore-missing-imports"]
         exclude: ^(test)
--   repo: https://github.com/Lucas-C/pre-commit-hooks
-    rev: v1.5.5
-    hooks:
-    -   id: remove-crlf
-    -   id: remove-tabs
