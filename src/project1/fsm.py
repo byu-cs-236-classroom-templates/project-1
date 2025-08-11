@@ -3,32 +3,31 @@
 The finite state machine (FSM) is abstracted by the `FiniteStateMachine` class.
 The function `run_fsm(fsm, input_string)` runs the indicated `fsm` until it
 accepts or rejects to return the resulting characters read and token.
+
+Note: An FSM normally reads until there are no more characters left in the input
+and then it returns `accept` or `reject`. In our application to lexical analysis
+we want the FSM to stop reading as soon as it is able to `accept` or `reject`.
+As such, for our application, the end of input is marked as soon when the FSM
+arrives to the `accept` state or the `reject` state rather than the end of input.
 """
 
 from typing import Callable
 
 from project1.token import Token
 
-State = Callable[[int, str], "StateAndOutput"]
+State = Callable[[str], "State"]
 """
-`State` is a function that takes two inputs and returns a new state with the
-new output. The `int` input is the number of characters read. The `str`
-input is the character to read. The output is the new state and the new
-number of characters read.
-"""
-StateAndOutput = tuple[State, int]
-"""
-The `State` is the new state resulting from the input while the `int` is the
-new output resulting from the input.
+`State` is a function that takes the character to read as a `str` and returns
+the next `State`: `State` : `I` -> `State`.
 """
 
 
 def run_fsm(fsm: "FiniteStateMachine", input_string: str) -> tuple[int, Token]:
     """Run an FSM and return the number of characters read with the token.
 
-    Run the passed in FSM until it accepts or rejects. The output is captured
-    on each state transition and passed as input with the next character. It returns
-    the number or character read and the resulting token.
+    Run the FSM until it accepts or rejects while counting the number of
+    characters read. The return value is a tuple of the number of characters
+    and the resulting token if the FSM accepts.
 
     Args:
 
@@ -50,30 +49,27 @@ def run_fsm(fsm: "FiniteStateMachine", input_string: str) -> tuple[int, Token]:
     """
     current_state: State = fsm.initial_state
     next_state: State
-
-    output_num_chars_read: int = 0
-
-    input_num_chars_read: int = 0
+    num_chars_read: int = 0
     input_char: str = ""
+    len_of_input_string = len(input_string)
 
-    number_of_chars = len(input_string)
-    for i in range(0, number_of_chars + 1):
-        input_num_chars_read = output_num_chars_read
-        input_char = input_string[i] if i < number_of_chars else ""
+    for i in range(0, len_of_input_string + 1):
+        input_char = input_string[i] if i < len_of_input_string else ""
 
-        next_state, output_num_chars_read = current_state(
-            input_num_chars_read, input_char
-        )
-        if next_state in {
-            FiniteStateMachine.s_accept,
-            FiniteStateMachine.s_reject,
-        }:
-            break
+        next_state = current_state(input_char)
+        match next_state:
+            case FiniteStateMachine.s_accept:
+                break
+            case FiniteStateMachine.s_reject:
+                num_chars_read = 0
+                break
+            case _:
+                num_chars_read += 1
 
         current_state = next_state
 
-    value = input_string[:output_num_chars_read]
-    return (output_num_chars_read, fsm.token(value))
+    value = input_string[:num_chars_read]
+    return (num_chars_read, fsm.token(value))
 
 
 class FiniteStateMachine:
@@ -112,14 +108,14 @@ class FiniteStateMachine:
         return Token.undefined(value)
 
     @staticmethod
-    def s_accept(input_chars_read: int, input_char: str) -> StateAndOutput:
+    def s_accept(input_char: str) -> State:
         """Accept sync state -- once accept always accept."""
-        return FiniteStateMachine.s_accept, input_chars_read
+        return FiniteStateMachine.s_accept
 
     @staticmethod
-    def s_reject(input_chars_read: int, input_char: str) -> StateAndOutput:
+    def s_reject(input_char: str) -> State:
         """Reject sync state -- once reject always reject."""
-        return FiniteStateMachine.s_reject, input_chars_read
+        return FiniteStateMachine.s_reject
 
 
 class Colon(FiniteStateMachine):
@@ -146,11 +142,15 @@ class Colon(FiniteStateMachine):
                 return super().token(value)
 
     @staticmethod
-    def s_0(input_chars_read: int, input_char: str) -> StateAndOutput:
+    def s_0(input_char: str) -> State:
         if input_char == ":":
-            return FiniteStateMachine.s_accept, input_chars_read + 1
+            return Colon.s_1
         else:
-            return FiniteStateMachine.s_reject, 0
+            return FiniteStateMachine.s_reject
+
+    @staticmethod
+    def s_1(input_char: str) -> State:
+        return FiniteStateMachine.s_accept
 
 
 class Eof(FiniteStateMachine):
@@ -165,11 +165,15 @@ class Eof(FiniteStateMachine):
                 return super().token(value)
 
     @staticmethod
-    def s_0(input_chars_read: int, input_char: str) -> StateAndOutput:
+    def s_0(input_char: str) -> State:
         if input_char == "":
-            return FiniteStateMachine.s_accept, input_chars_read + 1
+            return Eof.s_1
         else:
-            return FiniteStateMachine.s_reject, 0
+            return FiniteStateMachine.s_reject
+
+    @staticmethod
+    def s_1(input_char: str) -> State:
+        return FiniteStateMachine.s_accept
 
 
 class WhiteSpace(FiniteStateMachine):
@@ -180,10 +184,15 @@ class WhiteSpace(FiniteStateMachine):
         return Token.whitespace(value)
 
     @staticmethod
-    def s_0(input_chars_read: int, input_char: str) -> StateAndOutput:
+    def s_0(input_char: str) -> State:
         if input_char in [" ", "\t", "\r", "\n"]:
-            return WhiteSpace.s_0, input_chars_read + 1
-        elif input_chars_read > 0:
-            return FiniteStateMachine.s_accept, input_chars_read
+            return WhiteSpace.s_1
         else:
-            return FiniteStateMachine.s_reject, 0
+            return FiniteStateMachine.s_reject
+
+    @staticmethod
+    def s_1(input_char: str) -> State:
+        if input_char in [" ", "\t", "\r", "\n"]:
+            return WhiteSpace.s_1
+        else:
+            return FiniteStateMachine.s_accept
