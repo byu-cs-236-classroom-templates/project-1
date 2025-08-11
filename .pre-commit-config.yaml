@@ -42,4 +42,4 @@ repos:
     hooks:
     -   id: mypy
         args: ["--strict", "--follow-imports=silent", "--ignore-missing-imports"]
-        exclude: ^(test)
+        exclude: (^tests/|/tests/)

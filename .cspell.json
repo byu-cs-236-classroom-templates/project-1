@@ -3,7 +3,9 @@
   "language": "en",
   "ignorePaths": [
     ".devcontainer/",
-    ".pre-commit-config.yaml"
+    ".pre-commit-config.yaml",
+    ".gitignore",
+    "pyproject.toml",
   ],
   "words": [
     "configfile",
