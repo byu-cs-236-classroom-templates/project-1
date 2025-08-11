@@ -1,5 +1,5 @@
 # type: ignore
-from project1.fsm import run_fsm, Colon, WhiteSpace, Eof
+from project1.fsm import Colon, Eof, WhiteSpace, run_fsm
 from project1.token import Token
 
 

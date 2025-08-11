@@ -1,8 +1,8 @@
 # type: ignore
 import pytest
 
-from project1.token import Token
 from project1.lexer import lexer
+from project1.token import Token
 
 inputs = [
     (": ", [Token("COLON", ":", 1), Token("EOF", "", 1)]),

@@ -17,8 +17,8 @@ Examples:
 
 from typing import Iterator
 
+from project1.fsm import Colon, Eof, FiniteStateMachine, WhiteSpace
 from project1.token import Token, TokenType
-from project1.fsm import FiniteStateMachine, Colon, Eof, WhiteSpace
 
 
 def lexer(input_string: str) -> Iterator[Token]:

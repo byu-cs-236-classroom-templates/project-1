@@ -1,7 +1,7 @@
 # type: ignore
 import pytest
-from project1.token import Token
 
+from project1.token import Token
 
 str_test_inputs = [
     (Token.colon(":"), '(COLON,":",0)'),

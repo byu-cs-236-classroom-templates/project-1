@@ -5,7 +5,7 @@
     ".devcontainer/",
     ".pre-commit-config.yaml",
     ".gitignore",
-    "pyproject.toml",
+    "pyproject.toml"
   ],
   "words": [
     "configfile",
@@ -13,6 +13,7 @@
     "docstrings",
     "doctest",
     "doctests",
+    "fsms",
     "learningsuite",
     "myproject",
     "mypy",
