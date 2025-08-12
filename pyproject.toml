@@ -18,6 +18,7 @@ project1 = "project1.project1:project1cli"
 dev = [
   "pytest",
   "mypy",
+  "ruff",
   "pre-commit",
 ]
 
