@@ -66,8 +66,6 @@ class Token:
         line_num (int): The line number associated with the token -- where it starts in the input.
     """
 
-    __slots__ = ["token_type", "value", "line_num"]
-
     def __init__(self, token_type: TokenType, value: str, line_num: int = 0) -> None:
         """Initialize a `Token` with its type, value, and line number.
 
