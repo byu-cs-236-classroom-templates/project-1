@@ -132,17 +132,17 @@ class FiniteStateMachine:
 
     @staticmethod
     def is_reject(state: State) -> bool:
-        """Return true if and only if `state` is an accept state
+        """Return true if and only if `state` is not an accept state
 
-        Any `State` with `accept` in its name is an accept state.
+        Any `State` that is not an accept state.
 
         Args:
             state: The state being considered.
 
         Return:
-            True if and only if `state` has accept in its name.
+            True if and only if `state` is not an accept state
         """
-        return "reject" in state.__name__
+        return not FiniteStateMachine.is_accept(state)
 
     @staticmethod
     def s_is_done_accept(input_char: str) -> tuple[bool, State]:
