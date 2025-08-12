@@ -92,8 +92,6 @@ class FiniteStateMachine:
         initial_state (State): The initial state for this FSM.
     """
 
-    __slots__ = ["initial_state"]
-
     def __init__(self, initial_state: State) -> None:
         """Initialize the FSM with its initial state
 
