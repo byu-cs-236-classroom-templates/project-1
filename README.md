@@ -10,20 +10,7 @@ The algorithm, and examples for implementing the FSMs and then iterating over th
 
 The first step is to clone the repository created by GitHub Classroom when the assignment was accepted in a sensible directory. In the vscode terminal, `git clone <URL>` where `<URL>` is the one from GitHub Classroom after accepting the assignment. Or open a new vscode window, select _Clone Git Repository_, and paste the link they get when they hover over the "<> Code ▼" and copy the url
 
-There is no need to install any vscode extensions. These should all still be present and active from the previous project. You do need to create the virtual environment, install the package, and install pre-commit. For a reminder to how that is done, see on [learningsuite.byu.edu](https://learningsuite.byu.edu) _Content_ &rarr; _Projects_ &rarr; _Projects Cheat Sheet_
-
-  * Create a virtual environment
-  * Install the package in edit mode: `pip install --editable ".[dev]"`
-  * Install pre-commit: `pre-commit install`
-
-The above should result in a `project1` executable that is run from the command line in an integrated terminal. As before, be sure the integrated terminal is in the virtual environment
-
-### WARNING
-
-  * Be sure that the `conda` environment is not active when setting up the project. It's active when there is a `(base)` annotation next to the terminal prompt. The `conda deactivate` command will exit that environment.
-  * Be sure the Python version is at least 3.11 -- `python --version`.
-  * Open the project folder in vscode when working on the project, and not a folder above it or below it, otherwise the paths for the pass-off tests will not work -- the common error is _"no project2 module found"_.
-  * Be sure that vscode is using the virtual environment in the project folder: choose `Python Select Interpreter` from the command pallette and select the Python in the `.venv` folder -- its usually the first option if vscode opened that folder as the workspace.
+There is no need to install any vscode extensions. These should all still be present and active from the previous project. You do need to create the virtual environment and install the package.For a reminder to how that is done, see on [learningsuite.byu.edu](https://learningsuite.byu.edu) _Content_ &rarr; _Projects_ &rarr; _Projects Cheat Sheet_. When done there should be a `project1` executable that is run from the command line in an integrated terminal. As before, be sure the integrated terminal is in the virtual environment
 
 ## Files
 
@@ -146,25 +133,37 @@ The `test_lexer.py` includes tests for the lexer that are suitable for the three
 
 The entry point for the auto-grader and the `project1` command. See the docstrings for details.
 
-## Where to start
+## Project Requirements
 
-Here is the suggested order for Project 1:
+This project is going to have you write code on your own, generate code using AI, and use two new tools to improve code quality. Each of these requirements is explained separately.
 
-1. Run the tests in `test_lexer.py` -- they should fail
-1. Implement the `lexer` function in `lexer.py` -- `test_lexer.py` should pass when the implementation is done
-1. Repeat until all the FSMs are implemented
+### Code you must write on your own
 
-    1. Choose an unimplemented FSM and write the accept and reject tests for it in `test_fsm.py`
-    1. Run the new tests -- they should fail
-    1. Create the state diagram (or state table) for the FSM to implement -- **we advise you to not skip this step**
-    1. Implement the FSM from the state diagram (or state table)-- done when the new tests pass
-    1. Write a new test in `test_lexer.py` that includes the newly implemented FSM
-    1. Run the new test -- it should fail
-    1. Add the new FSM to the `lexer` function -- done when the new test passes
+1. Implement the `lexer` function in `lexer.py`. We have already written tests in `test_lexer.py` for the `COLON`, `EOF`, and `WHITESPACE` tokens that currently fail since `lexer` is not implemented yet. Use these tests to guide your implementation of the `lexer` function and indicate when you have a working solution.
 
-1. Run the pass-off tests -- debug as needed
+1. Implement a `Comma` state machine using the `Colon` state machine as a pattern.
 
-### Testing reminder
+1. Write a pair of tests for a `String` state machine. One test should accept. One test should reject. Use the examples in `test_fsm.py` to guide your tests.
+
+1. Implement the `String` state machine by generalizing the pattern from the `Comma` and `Colon` machines. It should pass the tests from the previous step when complete.
+
+1. Implement the `Comment` state machine. Writing tests similar to the tests for `String` is recommended but not required.
+
+### Code you must write with AI
+
+Use generative AI to write the state machines for the rest of the tokens. Feel free to have it add test cases for each machine to `test_fsm.py` and to the test function in `test_lexer.py` if you so desire. For the generated code, write a docstring explaining how you prompted the AI to complete this task and how you determined the quality, and correctness, of the generated code.
+
+### Code Quality Tools
+
+Run the following tools on your code and correct any reported issues:
+
+1. `ruff check` --- detects and reports code smells
+1. `ruff format` --- enforces consistent formatting
+1. `mypy src/project1/*.py` --- type checks the files
+
+The `ruff` and `mypy` tools are integrated into `vscode` with the extensions you installed from Project 0. The _Problems_ pain reports code smells from `ruff` and type errors from `mypy` on opened files and is helpful for correcting issues.
+
+## Testing Review
 
 The testing pane is super convenient for running, and debugging tests. The integrated terminal is also super helpful. The `-k` flag is the easiest to find and choose a test since it uses matching. Try it out.
 
@@ -190,14 +189,17 @@ $ pytest -k project1.project1.project1
 
 ## Pass-off and Submission
 
-The minimum standard for this project is **bucket 80**. That means that if all the tests pass in all buckets up to and including bucket 80, then the next project can be started safely.
+The minimum standard for this project is **bucket 80**. That means that if all the tests pass in all buckets up to and including bucket 80, then the next project can be started safely. You can run each bucket from the testing pane or with `pytest` on the command line. Passing everything up to and including `test_passoff_80.py` is the minimum requirement to move on to the next project.
 
-The Project 1 submission follows that of Project 0:
+The Project 1 submission:
 
   * Commit your solution on the master branch
   * Push the commit to GitHub -- that should trigger the auto-grader
-  * Goto [learningsuite.byu.edu](https://learningsuite.byu.edu) at _Assignments_ &rarr; _Projects_ &rarr; _Project 1_ to submit your GitHub ID and Project 1 URL for grading.
-  * Goto the Project 1 URL, find the green checkmark or red x, and click it to confirm the auto-grader score matches the pass-off results from your system.
+  * Goto [learningsuite.byu.edu](https://learningsuite.byu.edu) at _Assignments_ &rarr; _Projects_ &rarr; _Project 1_ to submit the following:
+    1. your GitHub ID and Project 1 URL for grading.
+    1. your docstring discussing how you prompted the AI to generate the code and how you determined the quality and correctness of the code.
+    1. a screen shot showing no issues with `mypy`, `ruff check`, and `ruff format`.
+  * Confirm on the GitHub Actions pane that the pass-off tests passed, or alternatively, goto the Project 1 URL, find the green checkmark or red x, and click it to confirm the auto-grader score matches the pass-off results from your system.
 
 ### Branches
 
