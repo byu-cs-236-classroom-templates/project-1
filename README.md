@@ -162,9 +162,11 @@ This project is going to have you write code on your own, generate code using AI
 
 1. Implement a `Comma` state machine using the `Colon` state machine as a pattern.
 
+1. Implement a `SCHEMES` state machine by extending the pattern in the `Colon` machine to sequences of expected characters.
+
 1. Write a pair of tests for a `String` state machine. One test should accept. One test should reject. Use the examples in `test_fsm.py` to guide your tests.
 
-1. Implement the `String` state machine by generalizing the pattern from the `Comma` and `Colon` machines. It should pass the tests from the previous step when complete.
+1. Implement the `String`. It should pass the tests from the previous step when complete.
 
 1. Implement the `Comment` state machine. Writing tests similar to the tests for `String` is recommended but not required.
 
