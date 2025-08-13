@@ -6,6 +6,25 @@ The process to turn the input string into a token stream relies on giving the in
 
 The algorithm, and examples for implementing the FSMs and then iterating over the FSMs to determine which token to produce is in the lecture notes for Project 1 on [learningsuite.byu.edu](https://learningsuite.byu.edu) -- see the _Lectures_ in the _Content_ pane. **Before proceeding further, please review the Project 1 lecture slides with the associated Jupyter notebooks.**
 
+## Table of Contents
+
+- [Developer Setup](#developer-setup)
+- [Files](#files)
+  - [Reminder](#reminder)
+- [Overview](#overview)
+  - [Python Imports](#python-imports)
+  - [token.py](#tokenpy)
+  - [fsm.py](#fsmpy)
+  - [lexer.py](#lexerpy)
+  - [project1.py](#project1py)
+- [Project Requirements](#project-requirements)
+  - [Code you must write on your own](#code-you-must-write-on-your-own)
+  - [Code you must write with AI](#code-you-must-write-with-ai)
+  - [Code Quality Tools](#code-quality-tools)
+- [Testing Review](#testing-review)
+- [Pass-off and Submission](#pass-off-and-submission)
+  - [Branches](#branches)
+
 ## Developer Setup
 
 The first step is to clone the repository created by GitHub Classroom when the assignment was accepted in a sensible directory. In the vscode terminal, `git clone <URL>` where `<URL>` is the one from GitHub Classroom after accepting the assignment. Or open a new vscode window, select _Clone Git Repository_, and paste the link they get when they hover over the "<> Code ▼" and copy the url
