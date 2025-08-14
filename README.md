@@ -122,6 +122,7 @@ Remember that the intent of the project is to learn about FSMs while you impleme
 - `RIGHT_PAREN`
 - `COLON` (implemented in starter code)
 - `EOF` (implemented in starter code)
+
 Implement one or two of these easiest FSMs by hand (e.g., COMMA and PERIOD) and then use AI to create the code for the rest of the easier FSMs. The idea is to offload tedious tasks to AI but **not until you understand what you are doing**. We want the AI-generated code to use the same style as your code, and we insist that the AI-generated code be FSMs (and not, for example, string comparisons).
 
 One way to prompt AI for the code generation is the following
@@ -154,6 +155,7 @@ The hardest FSMs are the ones that require some more thought about how to design
 - `ID`
 - `COMMENT`
 - `STRING`
+
 You may not use AI to write these FSMs. Instead, use the following steps, which are written assuming you are creating the `ID` FSM
 1. Draw the FSM that ends in an accept state for any input string that matches the `ID` pattern and in a reject sync state for any other string
 1. Step through the FSM by hand for a string that should end in the accept state
@@ -161,4 +163,4 @@ You may not use AI to write these FSMs. Instead, use the following steps, which 
 1. Write a test for both of the examples you used when you stepped through by hand
 1. Implement the `ID` FSM and run the test
 
-Look through the integration tests for some of the trickier tests, especially looking for inputs that will produce an `UNDEFINED` token like a weird string or an input that doesn't match the `ID` pattern.
+Look through the integration tests for some of the trickier tests. Especially look for inputs that will produce an `UNDEFINED` token like a weird string or an input that doesn't match the `ID` pattern.
