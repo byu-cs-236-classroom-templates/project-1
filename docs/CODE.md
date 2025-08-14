@@ -102,13 +102,13 @@ The are three FSMs already provided with the project with tests in `test_fsm.py`
 The following diagram is an illustration of the what takes place during lexing. The input is given to each of the token FSMs, and the one that reads the most characters and has the highest priority in the case of a tie yields the token for that portion of the input. The list of tokens is in the upper right of the diagram. The list of machines in the center. And the input, with the already processed input crossed out, is in the left of the diagram.
 
 <p align="center">
-<img src="./images/project1_diagram.jpg" alt="drawing" width="800"/>
+<img src="../images/project1_diagram.jpg" alt="drawing" width="800"/>
 </p>
 
 The general pseudo-code follows. The code gives the input to each of the state machines and keeps track of the machine that reads the most input characters with the resulting token. In the case of a tie, the machine that appears first in the array of FSMs has priority. Missing from the code is how an `UNDEFINED` token should be handled and `WHITESPACE`. For `UNDEFINED`, if no machine matches, then return `UNDEFINED` with the first character af the input as the value. For `WHITESPACE` it is it's own FSM, so it will match when it can, and create a `WHITESPACE` token that is to be ignored.
 
 <p align="center">
-<img src="./images/pseudo-code.jpg" alt="drawing" width="800"/>
+<img src="../images/pseudo-code.jpg" alt="drawing" width="800"/>
 </p>
 
 The `lexer.py` file also includes similar pseudo-code with a few added details in the docstrings. **It is well worth your time to study and understand the provided pseudo-code in `lexer.py` before starting the project.**
