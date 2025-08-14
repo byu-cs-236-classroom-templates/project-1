@@ -1,192 +1,73 @@
 # Project 1
 
-This project takes as input a string for a Datalog program and turns it onto a sequence of _tokens_ that form the input to a Datalog parser. A token is a representation of a syntactic element used to define a grammar such as a keyword or an identifier -- more on grammars later in the course.
+Project 1 is to implement a lexer for Datalog programs. A lexer takes as input a string for a Datalog program and turns it onto a sequence of _tokens_ that form the input to a Datalog parser. A token is a representation of a syntactic element of Datalog such as a keyword or an identifier. _Grammars_ are defined over tokens, and grammars are the subject of Project 2, so more on those later in the course. In general though, a token is a syntactic element of a language with the characters from the input associated with that element.
 
-The process to turn the input string into a token stream relies on giving the input string to a set of finite state machines (FSMs), each FSM in the set able to detect a specific syntactic element of Datalog, to see which token should be generated next with the part of the input string for that token. A state for an FSM takes as input the number of characters from the input read thus far and the next character to try to read. The state returns the next state for the FSM and the number of characters it has now read from the input string. All FSMs eventually end in an accept or reject state from which an appropriate token can be created.
+The process to turn an input string for a Datalog program into a token stream relies on giving the input string to a set of _finite state machines_ (FSMs). Each FSM in the set detects a specific syntactic element of Datalog. The input string is read sequentially by each FSM to see which token should be generated next.  The FSM that reads the longest prefix of the input string with the highest priority determines the next token in the token stream. The read prefix is then removed from the input string and the process repeats. See [LEXER.md](docs/LEXER.md) for a complete description of the token types and lexer algorithm.
 
-The algorithm, and examples for implementing the FSMs and then iterating over the FSMs to determine which token to produce is in the lecture notes for Project 1 on [learningsuite.byu.edu](https://learningsuite.byu.edu) -- see the _Lectures_ in the _Content_ pane. **Before proceeding further, please review the Project 1 lecture slides with the associated Jupyter notebooks.**
+To create an FSM in Python, we define an abstraction of an FSM state named `State`. A `State` is a function that takes as input a single character and returns as output a `tuple[bool, State]` where the `bool` is `True` if the FSM is not able to read any more input and `False` otherwise. The `State` is the next state resulting from reading the input character. A `State` is accepting if it has the string `"accept"` in it's name. You must use this `State` abstraction to implement the FSMs to detect syntactic elements of the Datalog language. See [CODE.md](docs/CODE.md) for a complete overview of the code that you are to use for this project.
+
+Additional resources for understanding tokens, FSMs, the lexer algorithm, and the code provided for this project are provided in the _Lectures: Reading, Topics, and Slides_ section of the _Content_ pane on [learningsuite.byu.edu](https://learningsuite.byu.edu). Look for _FSMs in Project 1_ in the _September Lectures_.  **We strongly recommend that you review that content, including the Jupyter notebook, before proceeding further.**
 
 ## Table of Contents
 
 - [Developer Setup](#developer-setup)
-- [Files](#files)
-  - [Reminder](#reminder)
-- [Overview](#overview)
-  - [Python Imports](#python-imports)
-  - [token.py](#tokenpy)
-  - [fsm.py](#fsmpy)
-  - [lexer.py](#lexerpy)
-  - [project1.py](#project1py)
 - [Project Requirements](#project-requirements)
-  - [Code you must write on your own](#code-you-must-write-on-your-own)
-  - [Code you must write with AI](#code-you-must-write-with-ai)
-  - [Code Quality Tools](#code-quality-tools)
-- [Testing Review](#testing-review)
-- [Pass-off and Submission](#pass-off-and-submission)
-  - [Branches](#branches)
+- [Unit Tests](#unit-tests)
+- [Integration Tests (pass-off)](#integration-tests-pass-off)
+- [Code Quality Tools](#code-quality-tools)
+- [Submission and Grading](#submission-and-grading)
+- [Best Practices](#best-practices)
 
 ## Developer Setup
 
-The first step is to clone the repository created by GitHub Classroom when the assignment was accepted in a sensible directory. In the vscode terminal, `git clone <URL>` where `<URL>` is the one from GitHub Classroom after accepting the assignment. Or open a new vscode window, select _Clone Git Repository_, and paste the link they get when they hover over the "<> Code ▼" and copy the url
+The `vscode` extensions for developing Project 1 are already installed as part of Project 0. You should not need to install any new extensions. You do need to set up the project locally on your machine. The below steps outline the process.
 
-There is no need to install any vscode extensions. These should all still be present and active from the previous project. You do need to create the virtual environment and install the package.For a reminder to how that is done, see on [learningsuite.byu.edu](https://learningsuite.byu.edu) _Content_ &rarr; _Projects_ &rarr; _Projects Cheat Sheet_. When done there should be a `project1` executable that is run from the command line in an integrated terminal. As before, be sure the integrated terminal is in the virtual environment
-
-## Files
-
-  * `README.md`: overview and directions
-  * `config_test.sh`: support for auto-grading -- **please do not edit**
-  * `images`: folder for images referenced in `README.md`
-  * `pyproject.toml`: package definition and project configuration -- **please do not edit**
-  * `src`: folder for the package source files
-  * `tests`: folder for the package test files
-
-### Reminder
-
-Please do not edit any of the following files or directories as they are related to _auto-grading_ and _pass-off_:
-
-  * `config_test.sh`
-  * `./tests/test_passoff_20.py`
-  * `./tests/test_passoff_40.py`
-  * `./tests/test_passoff_60.py`
-  * `./tests/test_passoff_80.py`
-  * `./tests/test_passoff_100.py`
-  * `./tests/resources/project1-passoff/*`
-
-## Overview
-
-The project is divided into the following modules each representing a key component (see the Jupyter notebook tutorials for examples of using `token.py` and understanding `fsm.py` on [learningsuite.byu.edu](https://learningsuite.byu.edu) at _Content_ &rarr; _Project 1_ &rarr; _Project Description and Specification_ and _Content_ &rarr; _Lectures: Reading, Topics, Slides_ &rarr; _September Lectures_ &rarr; _FSMs in Project 1_):
-
-  * `src/project1/token.py`: defines the `Token` class with methods to create tokens of each type needed for Datalog
-  * `src/project1/fsm.py`: defines the `FiniteStateMachineClass` and how to run an instance of a `FiniteStateMachine`
-  * `src/project1/lexer.py`: defines the interface for the lexer
-  * `src/project1/project1.py`: defines the entry point for auto-grading and the command line entry point
-
-Each of the above files are specified with Python _docstrings_ and they also have examples defined with python _doctests_. A _docstring_ is a way to document Python code so that the command `help(project1.lexer)` in the Python interpreter outputs information about the module with it's functions and classes. For functions, the docstrings give documentation when the mouse hovers over the function in vscode.
+1. Clone the repository to your machine. Accepting the Project 1 assignment on GitHub classroom creates a repository for your submission. You need to clone that repository to your machine. Copy the URL generated after accepting the assignment and in a terminal on your machine in a sensible location do ``git clone <URL>` where `<URL>` is the one you copied. Or open a new vscode window, select _Clone Git Repository_, and paste the URL you copied. If you followed the URL to GitHub, then you can recopy the URL using the "<> Code ▼" button.
+1. Create and activate a virtual environment in the project directory.  Revisit Project 0 for a reminder on how to create the virtual environment. There is also a _cheat sheet_ at [learningsuite.byu.edu](https://learningsuite.byu.edu) _Content_ &rarr; _Projects_ &rarr; _Projects Cheat Sheet_.
+1. Install the project package. **Be sure your virtual environment is active before installing the package!** In a terminal in the virtual environment in the project directory do: `pip install --editable ".[dev]"`.
+1. Verify the package installation. In the same terminal, after installing the package, type `project1` and hit enter. You should see the below output. The _Testing_ pane in vscode should also show `project-1` tests.
 
 ```
-$ python
-Python 3.12.3 (main, Apr 24 2024, 14:45:49) [GCC 10.2.1 20210110] on linux
-Type "help", "copyright", "credits" or "license" for more information.
->>> import project1.lexer
->>> help(project1.lexer)
+$ project1
+usage: project1 <input file>
 ```
-
-The `help` function can be called on functions, classes, or modules. This project comes with a fair amount of code already provided. Take time to read the docstrings either in the vscode editor or the Python interpreter to be sure you understand what you need, and do not need, to implement.
-
-Associated with each of the above files are corresponding test files. For example, `src/project1/token.py` has a corresponding `tests/test_token.py` file. These test files demonstrate the test driven development approach encourage by the course and will be referenced as each file is discussed.
-
-#### Python Imports
-
-Our Python files are all organized in a package, so any import must reference the package first. So in the above example for the `help` function, we have `import project1.lexer`. We could also do `from project1.lexer import lexer` as below:
-
-```
-$ python
-Python 3.12.3 (main, Apr 24 2024, 14:45:49) [GCC 10.2.1 20210110] on linux
-Type "help", "copyright", "credits" or "license" for more information.
->>> from project1.lexer import lexer
->>> help(lexer)
-```
-
-The above example will show a different docstring. The first example is the docstring for the module. This second example is the docstring for the function `lexer`. There are several examples of how to import things in the package throughout the provided code.
-
-### token.py
-
-The `Token` class is fully implemented for you. Take a moment now to look at the code, read the docstrings, and review how the Token class was used in the Jupyter notebook referenced the [Overview](#overview). New is the use of the algebraic sum type `TokenType` as well as the other uses of the `Literal` type. These make it so `mypy` is able to type check that only tokens of type `TokenType` can ever be created and that when creating fixed string tokens such as COLON the value associated with that token type matches what the token should be.
-
-Be sure you understand the examples in the docstrings before moving on. These can be run in the Python interpreter in the terminal by recreating the commands.
-
-The `test_token.py` file checks that `str(token)` works as expected for each token type.
-
-### fsm.py
-
-This file implements an FSM and how to run an FSM. A few FSMs and the `run_fsm` function are implemented for you. The implemented FSMs are meant to be examples of what you need to do for the other FSMs.
-
-The `run_fsm` is what steps an FSM until it accepts or rejects.
-This `run_fsm` function is similar to `run` function in the Jupyter notebook tutorial and is adapted to the revised `FiniteStateMachine` class. The details are in the docstring that you can read directly in the file or using the `help` function in the Python interpreter.
-
-```
-$ python
->>> from project1.fsm import run_fsm
->>> help(run_fsm)
-```
-
-**Please study this function until you understand what it is doing.** It is key to completing the project since it is used to run the FSMs that you need to create. Use the example in the docstring and the Python interpreter to help in understanding.
-
-`FiniteStateMachine` is the Python equivalent of the FSMs that are being discussed in class. The details are in the docstring for the class. Use the `help` function (see below) are open and read the docstrings in the file directly.
-
-```
-$ python
-Python 3.12.3 (main, Apr 24 2024, 14:45:49) [GCC 10.2.1 20210110] on linux
-Type "help", "copyright", "credits" or "license" for more information.
->>> from project1.fsm import FiniteStateMachine
->>> help(FiniteStateMachine)
-```
-
-The are three FSMs already provided with the project with tests in `test_fsm.py` for each one: `Colon`, `Eof`, and `Whitespace`. These are complete, and may be used _as is_. They are also examples of how to create the other FSMs required for the projects. There are **two tests** for each FSM: one that should reject and one that should accept. You can find these tests in the `tests` directory in the file called `test_fsm.py`. **Follow this pattern of testing for the other FSMs that you must implement.**
-
-### lexer.py
-
-The following diagram is an illustration of the what takes place during lexing. The input is given to each of the token FSMs, and the one that reads the most characters and has the highest priority in the case of a tie yields the token for that portion of the input. The list of tokens is in the upper right of the diagram. The list of machines in the center. And the input, with the already processed input crossed out, is in the left of the diagram.
-
-<p align="center">
-<img src="./images/project1_diagram.jpg" alt="drawing" width="800"/>
-</p>
-
-The general pseudo-code follows. The code gives the input to each of the state machines and keeps track of the machine that reads the most input characters with the resulting token. In the case of a tie, the machine that appears first in the array of FSMs has priority. Missing from the code is how an `UNDEFINED` token should be handled and `WHITESPACE`. For `UNDEFINED`, if no machine matches, then return `UNDEFINED` with the first character af the input as the value. For `WHITESPACE` it is it's own FSM, so it will match when it can, and create a `WHITESPACE` token that is to be ignored.
-
-<p align="center">
-<img src="./images/pseudo-code.jpg" alt="drawing" width="800"/>
-</p>
-
-The `lexer.py` file also includes similar pseudo-code with a few added details in the docstrings. **It is well worth your time to study and understand the provided pseudo-code in `lexer.py` before starting the project.**
-
-```
-$ python
->>> from project1.lexer import lexer
->>> help(lexer)
-```
-
-The `test_lexer.py` includes tests for the lexer that are suitable for the three FSMs that are provided. Review these tests because they are the starting point for the project. **Be sure you understand the tests before moving to the next section.**
-
-### project1.py
-
-The entry point for the auto-grader and the `project1` command. See the docstrings for details.
 
 ## Project Requirements
 
-This project is going to have you write code on your own, generate code using AI, and use two new tools to improve code quality. Each of these requirements is explained separately.
+1. The project must be completed individually -- there is no group work.
+1. Project pass-off is on GitHub. You will commit your final solution to the `master` branch of your local repository and then push that commit to GitHub. Multiple commits, and pushes, are allowed. A push triggers a GitHub action that is the auto-grader for pass-off. The TAs look at the result of the auto-grader on GitHub, and your code, to determine your final score.
+1. You must pass all integration tests up to, and including, `tests/test_passoff_80.py` to move on to the next project. Bucket 80 is the minimum functionality to complete the course.
+1. You must implement, with no AI help, the `lexer` function in `src/project1/lexer.py` using the algorithm discussed in class. See [LEXER.md](docs/LEXER.md) for a complete description of the token types and lexer algorithm along with input to output examples.
+1. All tokens must be detected using FSMs. Regular expression libraries, loops, etc. are not allowed.
+1. You must implement, with no AI help, the FSMs for the following tokens:
+    * `ID`
+    * `COMMENT`
+    * `STRING`
+1. You may use AI to write code for any of the other remaining tokens.
+1. Your code must not report any issues with the following code quality tools run in the integrated `vscode` terminal from the root of the project directory:
+    * `ruff check .` -- detects and reports code smells
+    * `ruff format .` -- enforces consistent formatting
+    * `mypy src/project1/*.py` -- type checks the files
 
-### Code you must write on your own
+Consider using a branch as you work on your submission so that you can `commit` your work from time to time. Once everything is working, and the auto-grader tests are passing, then you can `merge` your work into your master branch and push it to your GitHub repository. Ask your favorite AI for help learning how to use Git branches for feature development.
 
-1. Implement the `lexer` function in `lexer.py`. We have already written tests in `test_lexer.py` for the `COLON`, `EOF`, and `WHITESPACE` tokens that currently fail since `lexer` is not implemented yet. Use these tests to guide your implementation of the `lexer` function and indicate when you have a working solution.
+## Unit Tests
 
-1. Implement a `Comma` state machine using the `Colon` state machine as a pattern.
+There are basic accept/reject unit tests defined in `tests/test_fsm.py` for the `Colon`, `Eof`, and `Whitespace` FSMs. See [CODE.md](docs/CODE.md) for a complete overview of the code that you are to use for this project.
 
-1. Implement a `Schemes` state machine by extending the pattern in the `Colon` machine to sequences of expected characters.
+**We strongly encourage you to add unit tests for the `ID`, `COMMENT`, and `STRING` FSMs at a minimum.** That aside, here are some of the edge cases that appear in the integration tests for pass-off that you might consider as part of your unit test efforts:
 
-1. Write a pair of tests for a `String` state machine. One test should accept. One test should reject. Use the examples in `test_fsm.py` to guide your tests.
+- An empty input file.
+- A colon immediately followed by another token (no space between the colon and the next token).
+- An identifier that contains a number.
+- An identifier that contains a keyword.
+- An empty string (nothing between the quotes `''`).
+- An unterminated string.
+- A string with multiple quote (`\'\'\'`)
 
-1. Implement the `String`. It should pass the tests from the previous step when complete.
+You might also consider adding test cases to `tests/test_lexer.py` as you implement different FSMs. Once an FSM is done, then you can add it to the `lexer` function with a test to be sure the added FSM works as expected.
 
-1. Implement the `Comment` state machine. Writing tests similar to the tests for `String` is recommended but not required.
-
-### Code you must write with AI
-
-Use generative AI to write the state machines for the rest of the tokens. Feel free to have it add test cases for each machine to `test_fsm.py` and to the test function in `test_lexer.py` if you so desire. For the generated code, write a docstring explaining how you prompted the AI to complete this task and how you determined the quality, and correctness, of the generated code.
-
-### Code Quality Tools
-
-Run the following tools on your code and correct any reported issues:
-
-1. `ruff check` --- detects and reports code smells
-1. `ruff format` --- enforces consistent formatting
-1. `mypy src/project1/*.py` --- type checks the files
-
-The `ruff` and `mypy` tools are integrated into `vscode` with the extensions you installed from Project 0. The _Problems_ pain reports code smells from `ruff` and type errors from `mypy` on opened files and is helpful for correcting issues.
-
-## Testing Review
-
-The testing pane is super convenient for running, and debugging tests. The integrated terminal is also super helpful. The `-k` flag is the easiest to find and choose a test since it uses matching. Try it out.
+See the notes from class on how do to do testing using `pytest` in the projects. In general testing pane is super convenient for running, and debugging tests. The integrated terminal is also super helpful. The `-k` flag is the easiest way to find and choose a test since it uses matching. Try it out.
 
 ```
 $ pytest -k lexer
@@ -208,7 +89,16 @@ Here the first test is the doctest in the docstring for the module. Anytime pyte
 $ pytest -k project1.project1.project1
 ```
 
-## Pass-off and Submission
+**WARNING**: if there are syntactic, or other errors, in your code, then the testing pane will fail to show your tests.
+
+## Integration Tests (pass-off)
+There are some limited integration tests in `tests/test-project1.py` but the primary tests are found in the `tests/test_passoff_xx.py` files. These tests are used for project pass-off. The `xx` on each bucket denotes the available points for passing the tests in that bucket. The value of each test in each bucket is uniform: _points-for-bucket/number-of-tests-in-bucket_. Bucket 80 is the minimum requirement to pass the course. See [CODE.md](docs/CODE.md) for a complete overview of the pass-off tests.
+
+## Code Quality Tools
+
+The `ruff` and `mypy` tools are integrated into `vscode` with the extensions you installed from Project 0. The _Problems_ pane reports code smells from `ruff` and type errors from `mypy` on opened files and is helpful for correcting issues. These can all be run via command line in the root directory for the project as detailed in the [Project Requirements](#project-requirements).
+
+## Submission and Grading
 
 The minimum standard for this project is **bucket 80**. That means that if all the tests pass in all buckets up to and including bucket 80, then the next project can be started safely. You can run each bucket from the testing pane or with `pytest` on the command line. Passing everything up to and including `test_passoff_80.py` is the minimum requirement to move on to the next project.
 
@@ -217,11 +107,58 @@ The Project 1 submission:
   * Commit your solution on the master branch
   * Push the commit to GitHub -- that should trigger the auto-grader
   * Goto [learningsuite.byu.edu](https://learningsuite.byu.edu) at _Assignments_ &rarr; _Projects_ &rarr; _Project 1_ to submit the following:
-    1. your GitHub ID and Project 1 URL for grading.
-    1. your docstring discussing how you prompted the AI to generate the code and how you determined the quality and correctness of the code.
-    1. a screen shot showing no issues with `mypy`, `ruff check`, and `ruff format`.
+    1. Your GitHub ID and Project 1 URL for grading.
+    1. A short paragraph outlining how you prompted the AI to generate the code and how you determined the quality and correctness of that code.
+    1. A screen shot showing no issues with `mypy`, `ruff check`, and `ruff format`.
   * Confirm on the GitHub Actions pane that the pass-off tests passed, or alternatively, goto the Project 1 URL, find the green checkmark or red x, and click it to confirm the auto-grader score matches the pass-off results from your system.
 
-### Branches
+## Best Practices
 
-Consider using a branch as you work on your submission so that you can `commit` your work from time to time. Once everything is working, and the auto-grader tests are passing, then you can `merge` your work into your master branch and push it to your GitHub repository. Ask your favorite search engine or generative AI for help learning how to use Git branches.
+Remember that the intent of the project is to learn about FSMs while you implement the `lexer` function. The best practice for doing this learning is to design an FSM, write a test for that FSM, and repeat. There are FSMs that are *easier* and FSMs that are *harder*. Perhaps the easiest FSMs are
+- `COMMA`
+- `PERIOD`
+- `Q_MARK`
+- `LEFT_PAREN`
+- `RIGHT_PAREN`
+- `COLON` (implemented in starter code)
+- `EOF` (implemented in starter code)
+Implement one or two of these easiest FSMs by hand (e.g., COMMA and PERIOD) and then use AI to create the code for the rest of the easier FSMs. The idea is to offload tedious tasks to AI but **not until you understand what you are doing**. We want the AI-generated code to use the same style as your code, and we insist that the AI-generated code be FSMs (and not, for example, string comparisons).
+
+One way to prompt AI for the code generation is the following
+
+1. Write tests for the input string `"("`
+1. Tell the AI that you want it to remember the code you are going to type in since you'll be asking about in a subsequent prompt
+1. Copy and past the base FSM into the AI
+1. Copy the `COLON` FSM into the AI and tell the AI that you'll be asking about that code in a subsequent prompt
+1. Tell the AI to create a class that follows the pattern of the `COLON` FSM so that it accepts the string `")"` and generates the `RIGHT_PAREN` token. Make sure that each state reads one character at a time.
+1. Copy the AI code into your FSM class
+1. Run your test on the code
+1. Repeat for the other easier FSMs
+
+Consider also prompting the AI to also generate the unit tests for `tests/tests_fsm.py` and `tests/tests_lexer.py`.
+
+---
+
+Other _easier_ FSMs are
+- `COLON_DASH` (demonstrated in Jupyter notebook tutorial)
+- `SCHEMES`
+- `FACTS`
+- `RULES`
+- `QUERIES`
+
+By hand, write a test, implement, and test the `SCHEMES` FSM using the pattern in the `COLON_DASH` FSM. Use AI to generate the code for the `FACTS`, `RULES`, `QUERIES`, etc. Make sure the code uses the same FSM-style class and test each FSM.
+
+---
+The hardest FSMs are the ones that require some more thought about how to design the FSM correctly.
+- `WHITESPACE` (implemented in the starter code)
+- `ID`
+- `COMMENT`
+- `STRING`
+You may not use AI to write these FSMs. Instead, use the following steps, which are written assuming you are creating the `ID` FSM
+1. Draw the FSM that ends in an accept state for any input string that matches the `ID` pattern and in a reject sync state for any other string
+1. Step through the FSM by hand for a string that should end in the accept state
+1. Step through the FSM by hand for a string that should not end in the accept state
+1. Write a test for both of the examples you used when you stepped through by hand
+1. Implement the `ID` FSM and run the test
+
+Look through the integration tests for some of the trickier tests, especially looking for inputs that will produce an `UNDEFINED` token like a weird string or an input that doesn't match the `ID` pattern.
