@@ -1,12 +1,39 @@
 # Project 1
 
-Project 1 is to implement a lexer for Datalog programs. A lexer takes as input a string for a Datalog program and turns it onto a sequence of _tokens_ that form the input to a Datalog parser. A token is a representation of a syntactic element of Datalog such as a keyword or an identifier. _Grammars_ are defined over tokens, and grammars are the subject of Project 2, so more on those later in the course. In general though, a token is a syntactic element of a language with the characters from the input associated with that element.
+Project 1 is to implement a lexer for Datalog programs. A lexer takes as input a Datalog program and turns it onto a sequence of _tokens_ that form the input to a Datalog parser. A token is a representation of a syntactic element of Datalog such as a keyword or an identifier. _Grammars_ are defined over tokens, and grammars are the subject of Project 2, so more on those later in the course. In general though, a **token is a syntactic element of a language** with the characters from the input associated with that element. The task in Project 1 is to take a Datalog program, saved as a `.txt` file, read it into an input stream, run the input stream through the lexer, and output a stream of tokens.
+```text
++----------------+
+| Datalog program|
++----------------+
+        |
+        v
++---------------+
+| Input Stream  |
++---------------+
+        |
+        v
+    +-------+
+    | Lexer |
+    +-------+
+        |
+        v
++---------------+
+| Token Stream  |
++---------------+
+```
 
-The process to turn an input string for a Datalog program into a token stream relies on giving the input string to a set of _finite state machines_ (FSMs). Each FSM in the set detects a specific syntactic element of Datalog. The input string is read sequentially by each FSM to see which token should be generated next.  The FSM that reads the longest prefix of the input string with the highest priority determines the next token in the token stream. The read prefix is then removed from the input string and the process repeats. See [LEXER.md](docs/LEXER.md) for a complete description of the token types and lexer algorithm.
+The process to turn an input stream for a Datalog program into a token stream relies on giving the input string to a set of _finite state machines_ (FSMs). Each FSM in the set detects a specific syntactic element of Datalog. The input string is read sequentially by each FSM to see which token should be generated next.  The FSM that reads the longest **prefix** of the input string with the highest priority determines the next token in the token stream. The longest read prefix is then removed from the input string and the process repeats. See [LEXER.md](docs/LEXER.md) for a complete description of the token types and lexer algorithm.
 
-To create an FSM in Python, we define an abstraction of an FSM state named `State`. A `State` is a function that takes as input a single character and returns as output a `tuple[bool, State]` where the `bool` is `True` if the FSM is not able to read any more input and `False` otherwise. The `State` is the next state resulting from reading the input character. A `State` is accepting if it has the string `"accept"` in it's name. You must use this `State` abstraction to implement the FSMs to detect syntactic elements of the Datalog language. See [CODE.md](docs/CODE.md) for a complete overview of the code that you are to use for this project.
+To create an FSM in Python, we define an abstraction of an FSM state named `State`. A `State` is a function that takes as input a single character and returns as output a `tuple[bool, State]` where the `bool` is `True` if the FSM is not able to read any more input and `False` otherwise. The `State` is the _next state_ resulting from reading the input character. A `State` is _accepting_ if it has the string `"accept"` in it's name. You must use this `State` abstraction to implement the FSMs to detect syntactic elements of the Datalog language. See [CODE.md](docs/CODE.md) for a complete overview of the code that you are to use for this project.
 
-Additional resources for understanding tokens, FSMs, the lexer algorithm, and the code provided for this project are provided in the _Lectures: Reading, Topics, and Slides_ section of the _Content_ pane on [learningsuite.byu.edu](https://learningsuite.byu.edu). Look for _FSMs in Project 1_ in the _September Lectures_.  **We strongly recommend that you review that content, including the Jupyter notebook, before proceeding further.**
+Additional resources for understanding tokens, FSMs, the lexer algorithm, and the code provided for this project are provided in the _Lectures: Reading, Topics, and Slides_ section of the _Content_ pane on [learningsuite.byu.edu](https://learningsuite.byu.edu). Look for _FSMs in Project 1_ in the _September Lectures_.  _We strongly recommend that you review that content, including the Jupyter notebook, before proceeding further._
+
+**Summary of Documentation**
+- [README.md](README.md): describes project logistics
+- [LEXER.md](docs/LEXER.md): describes each token type and gives examples
+- [CODE.md](docs/CODE.md): describes the starter code
+- Lecture notes and Jupyter notebook on _FSM in Project 1_ in [learningsuite.byu.edu](https://learningsuite.byu.edu)
+---
 
 ## Table of Contents
 
@@ -22,24 +49,29 @@ Additional resources for understanding tokens, FSMs, the lexer algorithm, and th
 
 The `vscode` extensions for developing Project 1 are already installed as part of Project 0. You should not need to install any new extensions. You do need to set up the project locally on your machine. The below steps outline the process.
 
-1. Clone the repository to your machine. Accepting the Project 1 assignment on GitHub classroom creates a repository for your submission. You need to clone that repository to your machine. Copy the URL generated after accepting the assignment and in a terminal on your machine in a sensible location do ``git clone <URL>` where `<URL>` is the one you copied. Or open a new vscode window, select _Clone Git Repository_, and paste the URL you copied. If you followed the URL to GitHub, then you can recopy the URL using the "<> Code ▼" button.
+1. Clone the repository to your machine. Accepting the Project 1 assignment on GitHub classroom creates a repository for your submission. You need to clone that repository to your machine. Copy the URL generated after accepting the assignment and in a terminal on your machine in a sensible location. From an intergrated terminal, type ``git clone \<URL\>` where `\<URL\>` is the one you copied. Or open a new vscode window, select _Clone Git Repository_, and paste the URL you copied. If you followed the URL to GitHub, then you can recopy the URL using the "<> Code ▼" button.
 1. Create and activate a virtual environment in the project directory.  Revisit Project 0 for a reminder on how to create the virtual environment. There is also a _cheat sheet_ at [learningsuite.byu.edu](https://learningsuite.byu.edu) _Content_ &rarr; _Projects_ &rarr; _Projects Cheat Sheet_.
-1. Install the project package. **Be sure your virtual environment is active before installing the package!** In a terminal in the virtual environment in the project directory do: `pip install --editable ".[dev]"`.
-1. Verify the package installation. In the same terminal, after installing the package, type `project1` and hit enter. You should see the below output. The _Testing_ pane in vscode should also show `project-1` tests.
-
-```
-$ project1
-usage: project1 <input file>
-```
+1. Install the project package. **Be sure your virtual environment is active before installing the package!** In a terminal in the virtual environment in the project directory do: `pip install --editable ".[dev]"`. Use `pip3` instead of `pip` if your system requires it.
+1. Verify the package installation. From the terminal in which you activated the virtual environment and installed the project package, type `project1` and hit enter. You should see the below output.
+    
+    ```
+    $ project1
+    usage: project1 <input file>
+    ```
+1. Verify that tests are ready to run. Open the _Testing Pane_ in VS Code by clicking on the test tube icon. If you see 
+    ```
+    pytest Discovery Error [project-1]
+    ```
+    then you must open the _Command Palette_ from the _View_ menu, choose `Python: Select Interpreter`, and choose the interpreter for the virtual environment (probably `Python 3.12.5 (.venv)`).
 
 ## Project Requirements
 
 1. The project must be completed individually -- there is no group work.
 1. Project pass-off is on GitHub. You will commit your final solution to the `master` branch of your local repository and then push that commit to GitHub. Multiple commits, and pushes, are allowed. A push triggers a GitHub action that is the auto-grader for pass-off. The TAs look at the result of the auto-grader on GitHub, and your code, to determine your final score.
 1. You must pass all integration tests up to, and including, `tests/test_passoff_80.py` to move on to the next project. Bucket 80 is the minimum functionality to complete the course.
-1. You must implement, with no AI help, the `lexer` function in `src/project1/lexer.py` using the algorithm discussed in class. See [LEXER.md](docs/LEXER.md) for a complete description of the token types and lexer algorithm along with input to output examples.
+1. You must implement, with no AI help except syntax and formatting questions, the `lexer` function in `src/project1/lexer.py` using the algorithm discussed in class. See [LEXER.md](docs/LEXER.md) for a complete description of the token types and lexer algorithm along with input to output examples.
 1. All tokens must be detected using FSMs. Regular expression libraries, loops, etc. are not allowed.
-1. You must implement, with no AI help, the FSMs for the following tokens:
+1. You must implement, with no AI help except syntax and formatting questions, the FSMs for the following tokens:
     * `ID`
     * `COMMENT`
     * `STRING`
@@ -67,7 +99,7 @@ There are basic accept/reject unit tests defined in `tests/test_fsm.py` for the 
 
 You might also consider adding test cases to `tests/test_lexer.py` as you implement different FSMs. Once an FSM is done, then you can add it to the `lexer` function with a test to be sure the added FSM works as expected.
 
-See the notes from class on how do to do testing using `pytest` in the projects. In general testing pane is super convenient for running, and debugging tests. The integrated terminal is also super helpful. The `-k` flag is the easiest way to find and choose a test since it uses matching. Try it out.
+See the notes from class and the homework on how do to do testing using `pytest` in the projects. In general, the `Testing Pane` in VS Code is super convenient for running, and debugging tests. The integrated terminal is also super helpful. The `-k` flag is the easiest way to find and choose a test since it uses matching. Try it out.
 
 ```
 $ pytest -k lexer
@@ -83,7 +115,7 @@ tests/test_lexer.py ..F                                                         
 ...
 ```
 
-Here the first test is the doctest in the docstring for the module. Anytime pytest sees what appears to be a capture from a Python terminal, it turns it into a test. These tests are called "doctests" and they are useful not just for examples but as a means to be sure the intended usage still works as intended. The doctest is also a very quick, and simple, way to test a function. Here is how to run just the doctest for the `project1` function in `project1.py`.
+Here the first test is the _doctest_ in the _docstring_ for the module. (A _docstring_ is the triple-quoted string at the top of a file or function. If unfamiliar with _docstring_, ask your favorite AI tool for a tutorial.) Anytime `pytest` sees what appears to be a something that might be typed into an interactive Python shell session inside a _docstring_, it turns it into a test. These tests are called "doctests" and they are useful not just for examples but as a means to be sure the intended usage still works as intended. The doctest is also a very quick, and simple, way to test a function. Here is how to run just the doctest for the `project1` function in `project1.py`.
 
 ```
 $ pytest -k project1.project1.project1
@@ -96,19 +128,19 @@ There are some limited integration tests in `tests/test-project1.py` but the pri
 
 ## Code Quality Tools
 
-The `ruff` and `mypy` tools are integrated into `vscode` with the extensions you installed from Project 0. The _Problems_ pane reports code smells from `ruff` and type errors from `mypy` on opened files and is helpful for correcting issues. These can all be run via command line in the root directory for the project as detailed in the [Project Requirements](#project-requirements).
+The `ruff` and `mypy` tools are integrated into `vscode` with the extensions you installed from Project 0. The _Problems_ pane reports both code "smells" from `ruff` and type errors from `mypy` on opened files and is helpful for correcting issues. (You can find the _Problems_ pane in VS Code by opening the intergrated terminal. Above the terminal, look for the `PROBLEMS` tab.) Both `ruff` and `mypy` can be run via command line in the root directory for the project as detailed in the [Project Requirements](#project-requirements).
 
 ## Submission and Grading
 
 The minimum standard for this project is **bucket 80**. That means that if all the tests pass in all buckets up to and including bucket 80, then the next project can be started safely. You can run each bucket from the testing pane or with `pytest` on the command line. Passing everything up to and including `test_passoff_80.py` is the minimum requirement to move on to the next project.
 
-The Project 1 submission:
+Submit Project 1 for grading by doing the following:
 
   * Commit your solution on the master branch
   * Push the commit to GitHub -- that should trigger the auto-grader
   * Goto [learningsuite.byu.edu](https://learningsuite.byu.edu) at _Assignments_ &rarr; _Projects_ &rarr; _Project 1_ to submit the following:
     1. Your GitHub ID and Project 1 URL for grading.
-    1. A short paragraph outlining how you prompted the AI to generate the code and how you determined the quality and correctness of that code.
+    1. A short paragraph outlining (a) how you prompted the AI to generate any code (if you used it) and (b) how you determined the quality and correctness of that code.
     1. A screen shot showing no issues with `mypy`, `ruff check`, and `ruff format`.
   * Confirm on the GitHub Actions pane that the pass-off tests passed, or alternatively, goto the Project 1 URL, find the green checkmark or red x, and click it to confirm the auto-grader score matches the pass-off results from your system.
 

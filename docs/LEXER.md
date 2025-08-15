@@ -2,6 +2,27 @@
 
 Additional resources for understanding tokens, FSMs, the lexer algorithm, and the code provided for this project are provided in the _Lectures: Reading, Topics, and Slides_ section of the _Content_ pane on [learningsuite.byu.edu](https://learningsuite.byu.edu). Look for _FSMs in Project 1_ in the _September Lectures_.  **We strongly recommend that you review that content, including the Jupyter notebook, before proceeding further.**
 
+A lexer takes as input a Datalog program and turns it onto a sequence of tokens. Each token represents a syntactic element of Datalog such as a keyword or an identifier. The general process of producing these tokens is shown below:
+```text
++----------------+
+| Datalog program|
++----------------+
+        |
+        v
++---------------+
+| Input Stream  |
++---------------+
+        |
+        v
+    +-------+
+    | Lexer |
+    +-------+
+        |
+        v
++---------------+
+| Token Stream  |
++---------------+
+```
 Perhaps the easiest way to understand the input to output relationship for the lexer is through a few examples.
 
 ## Example 1
@@ -47,6 +68,8 @@ Rules:
 Total Tokens = 26
 </pre>
 
+The **Input** in the example is a portion of a Datalog program. It contains syntatic elements including keywords ```Queries``` and ```Rules```, a user-defined identifier ```marriedTo```, some strings like ```'Bea'```, and some symbols like ```?``` and ```:-```. The ***Output*** is a stream of tokens, one token for each syntatic element. The tokens are represented as tuples ```(TokenName, "Token Value", Line Number)```. 
+
 ## Example 2
 **Input:**
 <pre>
@@ -70,6 +93,8 @@ FactsRules
 (EOF,"",7)
 Total Tokens = 8
 </pre>
+
+The second example includes syntatic elements that might appear in a valid Datalog program. The lexer turns the strings in the example into a stream of tokens. We won't know that the things in the Input don't form a valid Datalog program until Project 2.
 
 ## Formal Specifications of Token Types
 The following table describes each token that must be recognized by the lexer
@@ -144,7 +169,7 @@ The following table describes each token that must be recognized by the lexer
         <tr>
             <td class="center">ID</td>
             <td class="widthLimit">An identifier is a letter followed by zero or more letters or digits, and is not a keyword (Schemes, Facts, Rules, Queries).<br />
-            Note that for the input &quot;1stPerson&quot; the lexer would find two tokens: an &#39;undefined&#39; token made from the character &quot;1&quot; and an &#39;identifier&#39; token made from the characters &quot;stPerson&quot;.</td>
+            Note that for the input &quot;1stPerson&quot; is not a valid identifier because it does not begin with a letter.</td>
             <td class="center">
             <table>
                 <tbody>
@@ -206,13 +231,15 @@ The following table describes each token that must be recognized by the lexer
 ## Lexer Algorithm
 
 This overview is very high-level. The `lexer` function in `src/project1/lexer.py` has detailed pseudo-code that can be helpful as well.
-The following diagram is an illustration of the what takes place during lexing. The input is given to each of the token FSMs, and the one that reads the most characters and has the highest priority in the case of a tie yields the token for that portion of the input. The list of tokens is in the upper right of the diagram. The list of machines in the center. And the input, with the already processed input crossed out, is in the left of the diagram.
+The following diagram is an illustration of the what takes place during lexing. The input is given to each of the token FSMs, and the one that reads the most characters, or has the highest priority in the case of a tie, yields the token for that portion of the input. The list of tokens is in the upper right of the diagram. The list of machines in the center. And the input, with the already processed input crossed out, is in the left of the diagram.
 
 <p align="center">
 <img src="../images/project1_diagram.jpg" alt="drawing" width="800"/>
 </p>
 
-The general pseudo-code follows. The code gives the input to each of the state machines and keeps track of the machine that reads the most input characters with the resulting token. In the case of a tie, the machine that appears first in the array of FSMs has priority. Missing from the code is how an `UNDEFINED` token should be handled and `WHITESPACE`. For `UNDEFINED`, if no machine matches, then return `UNDEFINED` with the first character af the input as the value. For `WHITESPACE` it is it's own FSM, so it will match when it can, and create a `WHITESPACE` token that is to be ignored.
+The `README.md` used the term **prefix**. What that means is that the input is the stream of all the characters from the input file. Each FSM runs through the input one letter at a time until it knows whether the pattern in the input matches the syntax it was designed to detect. The term **prefix** means just those characters in the input string that match one of the syntatic patterns. The lexer turns the prefix into a token, ignoring any characters in the input that don't match the syntatic pattern. Thus, the lexer "slices off" prefixes one at a time as it steps through all the characters in the input stream.
+
+The general pseudo-code follows. The code gives the input to each of the state machines and keeps track of the machine that reads the most input characters with the resulting token. In the case of a tie, the machine that appears first in the array of FSMs has priority. Missing from the code is how an `UNDEFINED` token should be handled and `WHITESPACE`. For `UNDEFINED`, if no machine matches, then return `UNDEFINED` with the first character of the input as the value. Each space, newline, tab, or carriage return is considered `WHITESPACE`. There is an FSM that detects ```WHITESPACE` which will match when it can and generate a token. White space has no useful meaning when we write the parser in Project 2, so all `WHITESPACE` tokens will not be saved in the output.
 
 <p align="center">
 <img src="../images/pseudo-code.jpg" alt="drawing" width="800"/>

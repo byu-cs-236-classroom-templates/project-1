@@ -6,7 +6,7 @@ We provide a fair amount of python code for this project. Please take time to re
 
   * `README.md`: overview and directions
   * `config_test.sh`: support for auto-grading -- **please do not edit**
-  * `images`: folder for images referenced in `README.md`
+  * `images`: folder for images referenced in `README.md` and `LEXER.md`
   * `pyproject.toml`: package definition and project configuration -- **please do not edit**
   * `src`: folder for the package source files
   * `tests`: folder for the package test files
@@ -29,12 +29,13 @@ Please do not edit any of the following files or directories as they are related
 
 The project is divided into the following modules each representing a key component (see the Jupyter notebook tutorials for examples of using `token.py` and understanding `fsm.py` on [learningsuite.byu.edu](https://learningsuite.byu.edu) at _Content_ &rarr; _Project 1_ &rarr; _Project Description and Specification_ and _Content_ &rarr; _Lectures: Reading, Topics, Slides_ &rarr; _September Lectures_ &rarr; _FSMs in Project 1_):
 
-  * `src/project1/token.py`: defines the `Token` class with methods to create tokens of each type needed for Datalog
-  * `src/project1/fsm.py`: defines the `FiniteStateMachineClass` and how to run an instance of a `FiniteStateMachine`
-  * `src/project1/lexer.py`: defines the interface for the lexer
-  * `src/project1/project1.py`: defines the entry point for auto-grading and the command line entry point
+  * `src/project1/token.py`: defines the `Token` class with methods to create tokens of each type needed for Datalog. You should read this code but you will not need to modify it. You can use an AI tool to help you understand what this code does.
+  * `src/project1/fsm.py`: defines the `FiniteStateMachineClass` and how to run an instance of a `FiniteStateMachine`. You will add a FSM for each token in this file.
+  * `src/project1/lexer.py`: defines the interface for the lexer. You will implement the lexer algorithm from [LEXER.md](./LEXER.md) in this file.
+  * `src/project1/project1.py`: defines the entry point for auto-grading and the command line entry point. You will not need to modify this file.
+  * `debug_project1.py`: defines the entry point for using the VS Code debugger. Change the entry `"arg1"` part of the entry `sys.argv = ["project1", "arg1"]` on the third line of the file to specify the input file to use when debugging. For example, if you want to step through your lexer for one of the integration tests in `tests/resources/80`, you would replace `"arg1"` with the path and name of the file.
 
-Each of the above files are specified with Python _docstrings_ and they also have examples defined with python _doctests_. A _docstring_ is a way to document Python code so that the command `help(project1.lexer)` in the Python interpreter outputs information about the module with it's functions and classes. For functions, the docstrings give documentation when the mouse hovers over the function in vscode.
+Except for the debugging support, each of the above files are specified with Python _docstrings_ and they also have examples defined with python _doctests_. A _docstring_ is a way to document Python code so that the command `help(project1.lexer)` in the Python interpreter outputs information about the module with its functions and classes. For functions, the docstrings give documentation when the mouse hovers over the function in vscode.
 
 ```
 $ python
@@ -44,7 +45,11 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> help(project1.lexer)
 ```
 
-The `help` function can be called on functions, classes, or modules. This project comes with a fair amount of code already provided. Take time to read the docstrings either in the vscode editor or the Python interpreter to be sure you understand what you need, and do not need, to implement.
+The `help` function can be called on functions, classes, or modules. For example, you can type 
+```bash
+python3 -m pydoc src/project1/token.py
+```
+to print out the docstring for the `token.py` module. This project comes with a fair amount of code already provided. Take time to read the docstrings either in the vscode editor or the Python interpreter to be sure you understand what you need, and do not need, to implement.
 
 Associated with each of the above files are corresponding test files. For example, `src/project1/token.py` has a corresponding `tests/test_token.py` file. These test files demonstrate the test driven development approach encourage by the course and will be referenced as each file is discussed.
 
