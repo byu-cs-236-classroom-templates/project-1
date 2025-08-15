@@ -45,7 +45,11 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> help(project1.lexer)
 ```
 
-The `help` function can be called on functions, classes, or modules. This project comes with a fair amount of code already provided. Take time to read the docstrings either in the vscode editor or the Python interpreter to be sure you understand what you need, and do not need, to implement.
+The `help` function can be called on functions, classes, or modules. For example, you can type 
+```bash
+python3 -m pydoc src/project1/token.py
+```
+to print out the docstring for the `token.py` module. This project comes with a fair amount of code already provided. Take time to read the docstrings either in the vscode editor or the Python interpreter to be sure you understand what you need, and do not need, to implement.
 
 Associated with each of the above files are corresponding test files. For example, `src/project1/token.py` has a corresponding `tests/test_token.py` file. These test files demonstrate the test driven development approach encourage by the course and will be referenced as each file is discussed.
 
