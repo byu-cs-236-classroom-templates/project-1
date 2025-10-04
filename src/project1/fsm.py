@@ -237,3 +237,23 @@ class WhiteSpace(FiniteStateMachine):
             return WhiteSpace.s_accept, False
         else:
             return FiniteStateMachine.s_is_done_accept, True
+
+
+class Undefined(FiniteStateMachine):
+    def __init__(self) -> None:
+        super().__init__(Undefined.s_0)
+
+    def token(self, value: str) -> Token:
+        """Create a token of type UNDEFINED.
+
+        Args:
+            value: The characters read by the FSM.
+
+        Returns:
+            Token.UNDEFINED: for any single character, of any type including EOF, read.
+        """
+        return Token.undefined(value)
+
+    @staticmethod
+    def s_0(input_char: str) -> tuple[State, bool]:
+        return FiniteStateMachine.s_is_done_accept, False

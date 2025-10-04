@@ -17,7 +17,7 @@ Examples:
 
 from typing import Iterator
 
-from project1.fsm import Colon, Eof, FiniteStateMachine, WhiteSpace
+from project1.fsm import Colon, Eof, FiniteStateMachine, Undefined, WhiteSpace
 from project1.token import Token, TokenType
 
 
@@ -47,13 +47,19 @@ def lexer(input_string: str) -> Iterator[Token]:
     Some care must be given to determining when the _last_ token has been
     generated and how to update the new `line_num` for the next token.
 
+    Important note: the `Undefined` machine is the last machine because
+    it will **always** read one character, accept, and generate an
+    `UNDEFINED` token. If `_get_token` ever returns `UNDEFINED` then
+    the lexer should yield that token as the **last token** and stop
+    the analysis of the input.
+
     Args:
         input_string: Input string for token generation.
 
     Yields:
         token: The current token resulting from the string.
     """
-    fsms: list[FiniteStateMachine] = [Colon(), Eof(), WhiteSpace()]  # noqa: F841
+    fsms: list[FiniteStateMachine] = [Colon(), Eof(), WhiteSpace(), Undefined()]  # noqa: F841
     hidden: list[TokenType] = ["WHITESPACE"]  # noqa: F841
 
     raise NotImplementedError
