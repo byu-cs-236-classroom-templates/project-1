@@ -45,7 +45,7 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> help(project1.lexer)
 ```
 
-The `help` function can be called on functions, classes, or modules. For example, you can type 
+The `help` function can be called on functions, classes, or modules. For example, you can type
 ```bash
 python3 -m pydoc src/project1/token.py
 ```
