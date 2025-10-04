@@ -68,7 +68,7 @@ Rules:
 Total Tokens = 26
 </pre>
 
-The **Input** in the example is a portion of a Datalog program. It contains syntatic elements including keywords ```Queries``` and ```Rules```, a user-defined identifier ```marriedTo```, some strings like ```'Bea'```, and some symbols like ```?``` and ```:-```. The ***Output*** is a stream of tokens, one token for each syntatic element. The tokens are represented as tuples ```(TokenName, "Token Value", Line Number)```. 
+The **Input** in the example is a portion of a Datalog program. It contains syntatic elements including keywords ```Queries``` and ```Rules```, a user-defined identifier ```marriedTo```, some strings like ```'Bea'```, and some symbols like ```?``` and ```:-```. The ***Output*** is a stream of tokens, one token for each syntatic element. The tokens are represented as tuples ```(TokenName, "Token Value", Line Number)```.
 
 ## Example 2
 **Input:**
