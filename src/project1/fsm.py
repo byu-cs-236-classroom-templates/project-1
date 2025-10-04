@@ -24,7 +24,7 @@ from typing import Callable
 
 from project1.token import Token
 
-State = Callable[[str], tuple[bool, "State"]]
+State = Callable[[str], tuple["State", bool]]
 """
 `State` is a function that takes the character to read as a `str` and returns
 a `bool` signifying whether or not it is done reading and the next `State`
@@ -60,12 +60,12 @@ def run_fsm(fsm: "FiniteStateMachine", input_string: str) -> tuple[int, Token]:
         'number_chars_read = 1 token = (COLON,":",0)'
     """
     stream: StringIO = StringIO(input_string)
-    done, state = fsm.initial_state(stream.read(1))
+    state, done = fsm.initial_state(stream.read(1))
     num_chars_read: int = 0
 
     while not done:
         num_chars_read = num_chars_read + 1
-        done, state = state(stream.read(1))
+        state, done = state(stream.read(1))
 
     if FiniteStateMachine.is_reject(state):
         num_chars_read = 0
@@ -143,14 +143,14 @@ class FiniteStateMachine:
         return not FiniteStateMachine.is_accept(state)
 
     @staticmethod
-    def s_is_done_accept(input_char: str) -> tuple[bool, State]:
+    def s_is_done_accept(input_char: str) -> tuple[State, bool]:
         """Always done and always accept regardless of `input_char`"""
-        return True, FiniteStateMachine.s_is_done_accept
+        return FiniteStateMachine.s_is_done_accept, True
 
     @staticmethod
-    def s_is_done_reject(input_char: str) -> tuple[bool, State]:
+    def s_is_done_reject(input_char: str) -> tuple[State, bool]:
         """Always done and always reject regardless of `input_char`"""
-        return True, FiniteStateMachine.s_is_done_reject
+        return FiniteStateMachine.s_is_done_reject, True
 
 
 class Colon(FiniteStateMachine):
@@ -173,11 +173,11 @@ class Colon(FiniteStateMachine):
                 return super().token(value)
 
     @staticmethod
-    def s_0(input_char: str) -> tuple[bool, State]:
+    def s_0(input_char: str) -> tuple[State, bool]:
         if input_char == ":":
-            return False, FiniteStateMachine.s_is_done_accept
+            return FiniteStateMachine.s_is_done_accept, False
         else:
-            return True, FiniteStateMachine.s_is_done_reject
+            return FiniteStateMachine.s_is_done_reject, True
 
 
 class Eof(FiniteStateMachine):
@@ -200,11 +200,11 @@ class Eof(FiniteStateMachine):
                 return super().token(value)
 
     @staticmethod
-    def s_0(input_char: str) -> tuple[bool, State]:
+    def s_0(input_char: str) -> tuple[State, bool]:
         if input_char == "":
-            return False, FiniteStateMachine.s_is_done_accept
+            return FiniteStateMachine.s_is_done_accept, False
         else:
-            return True, FiniteStateMachine.s_is_done_reject
+            return FiniteStateMachine.s_is_done_reject, True
 
 
 class WhiteSpace(FiniteStateMachine):
@@ -225,15 +225,15 @@ class WhiteSpace(FiniteStateMachine):
         return super().token(value)
 
     @staticmethod
-    def s_0(input_char: str) -> tuple[bool, State]:
+    def s_0(input_char: str) -> tuple[State, bool]:
         if input_char in [" ", "\t", "\r", "\n"]:
-            return False, WhiteSpace.s_accept
+            return WhiteSpace.s_accept, False
         else:
-            return True, FiniteStateMachine.s_is_done_reject
+            return FiniteStateMachine.s_is_done_reject, True
 
     @staticmethod
-    def s_accept(input_char: str) -> tuple[bool, State]:
+    def s_accept(input_char: str) -> tuple[State, bool]:
         if input_char in [" ", "\t", "\r", "\n"]:
-            return False, WhiteSpace.s_accept
+            return WhiteSpace.s_accept, False
         else:
-            return True, FiniteStateMachine.s_is_done_accept
+            return FiniteStateMachine.s_is_done_accept, True

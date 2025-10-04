@@ -21,6 +21,8 @@
     "pluggy",
     "pyproject",
     "pytest",
+    "QMARK",
+    "RIGHTPAREN",
     "rootdir",
     "venv"
   ]

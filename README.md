@@ -49,7 +49,7 @@ Additional resources for understanding tokens, FSMs, the lexer algorithm, and th
 
 The `vscode` extensions for developing Project 1 are already installed as part of Project 0. You should not need to install any new extensions. You do need to set up the project locally on your machine. The below steps outline the process.
 
-1. Clone the repository to your machine. Accepting the Project 1 assignment on GitHub classroom creates a repository for your submission. You need to clone that repository to your machine. Copy the URL generated after accepting the assignment and in a terminal on your machine in a sensible location. From an intergrated terminal, type ``git clone \<URL\>` where `\<URL\>` is the one you copied. Or open a new vscode window, select _Clone Git Repository_, and paste the URL you copied. If you followed the URL to GitHub, then you can recopy the URL using the "<> Code ▼" button.
+1. Clone the repository to your machine. Accepting the Project 1 assignment on GitHub classroom creates a repository for your submission. You need to clone that repository to your machine. Copy the URL generated after accepting the assignment and in a terminal on your machine in a sensible location. From an integrated terminal, type ``git clone \<URL\>` where `\<URL\>` is the one you copied. Or open a new vscode window, select _Clone Git Repository_, and paste the URL you copied. If you followed the URL to GitHub, then you can recopy the URL using the "<> Code ▼" button.
 1. Create and activate a virtual environment in the project directory.  Revisit Project 0 for a reminder on how to create the virtual environment. There is also a _cheat sheet_ at [learningsuite.byu.edu](https://learningsuite.byu.edu) _Content_ &rarr; _Projects_ &rarr; _Projects Cheat Sheet_.
 1. Install the project package. **Be sure your virtual environment is active before installing the package!** In a terminal in the virtual environment in the project directory do: `pip install --editable ".[dev]"`. Use `pip3` instead of `pip` if your system requires it.
 1. Verify the package installation. From the terminal in which you activated the virtual environment and installed the project package, type `project1` and hit enter. You should see the below output.
@@ -128,7 +128,7 @@ There are some limited integration tests in `tests/test-project1.py` but the pri
 
 ## Code Quality Tools
 
-The `ruff` and `mypy` tools are integrated into `vscode` with the extensions you installed from Project 0. The _Problems_ pane reports both code "smells" from `ruff` and type errors from `mypy` on opened files and is helpful for correcting issues. (You can find the _Problems_ pane in VS Code by opening the intergrated terminal. Above the terminal, look for the `PROBLEMS` tab.) Both `ruff` and `mypy` can be run via command line in the root directory for the project as detailed in the [Project Requirements](#project-requirements).
+The `ruff` and `mypy` tools are integrated into `vscode` with the extensions you installed from Project 0. The _Problems_ pane reports both code "smells" from `ruff` and type errors from `mypy` on opened files and is helpful for correcting issues. (You can find the _Problems_ pane in VS Code by opening the integrated terminal. Above the terminal, look for the `PROBLEMS` tab.) Both `ruff` and `mypy` can be run via command line in the root directory for the project as detailed in the [Project Requirements](#project-requirements).
 
 ## Submission and Grading
 
@@ -153,7 +153,7 @@ _"A short paragraph outlining (a) how you prompted the AI to generate any code (
 These guidelines give examples from Project 1.
 
 * Brief means no more than 500 words.
-* Be specific about what code was generated. _"AI generated FSM code for `QMARK`, `LEFT_PAREN`, `RIGHTPAREN`, and `COMMA`."_
+* Be specific about what code was generated. _"AI generated FSM code for `QMARK`, `LEFT_PAREN`, `RIGHT_PAREN`, and `COMMA`."_
 * Be general about the final form of the prompts used to generate the code and any prompt iteration that was required. _"I gave the AI example code and asked it to create code that matched the pattern, and style, in that example code. I had to revise the prompt to specifically ask it to not generalize an FSM to detect a supplied string."_
 * Be specific about how you determined the quality and correctness of generated code. _"A manual visual inspection was sufficient to determine quality and correctness because the generated code was trivial. I also ran the code quality tools on the generated code as a second level check."_
 * Be specific about where else AI was leveraged. _"I used AI to breakdown and explain the pseudo-code for the `lexer` algorithm as well as the `FiniteStateMachine` class. AI also provided test inputs for my `STRING` FSM to help debug the apostrophe escape sequence."_
