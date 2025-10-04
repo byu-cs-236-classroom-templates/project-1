@@ -1,5 +1,5 @@
 # type: ignore
-from project1.fsm import Colon, Eof, WhiteSpace, run_fsm
+from project1.fsm import Colon, Eof, Undefined, WhiteSpace, run_fsm
 from project1.token import Token
 
 
@@ -76,3 +76,17 @@ class TestWhiteSpace:
         # then
         assert 13 == number_chars_read
         assert Token.whitespace(" \r\n\r\n \n \t \t  ") == token
+
+
+class TestUndefined:
+    def test_given_anything_when_run_then_accept(self):
+        # given
+        undefined = Undefined()
+        input_string = " "
+
+        # when
+        number_chars_read, token = run_fsm(undefined, input_string)
+
+        # then
+        assert 1 == number_chars_read
+        assert Token.undefined(" ") == token

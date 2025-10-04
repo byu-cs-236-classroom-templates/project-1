@@ -251,4 +251,11 @@ With the above, the general algorithm for the lexer is understood as follows:
     * Run each FSM on the string
     * Choose the “winning” FSM
     * Add the corresponding token to a list
+    * If the token is `UNDEFINED` then it is the last token produced and the rest of the input is ignored
     * Advance to next part of input_string
+
+### Important considerations
+
+**Order Matters:** choosing the _"winning"_ machine is based on the number of characters read by each machine and the priority of each machine. The priority is determined by the order in which the machines are checked by the lexer. Earlier machines have priority over later machines. In this way, if two machines read the same number of characters, the earlier machine wins.
+
+**Undefined stops the lexer:** if the _"winning"_ machine is ever the `Undefined` machine, then lexical analysis stops. The `UNDEFINED` token should be yielded as the last token even if there is still input left to process.
