@@ -69,7 +69,7 @@ The `vscode` extensions for developing Project 1 are already installed as part o
 1. The project must be completed individually -- there is no group work.
 1. Project pass-off is on GitHub. You will commit your final solution to the `master` branch of your local repository and then push that commit to GitHub. Multiple commits, and pushes, are allowed. A push triggers a GitHub action that is the auto-grader for pass-off. The TAs look at the result of the auto-grader on GitHub, and your code, to determine your final score.
 1. You must pass all integration tests up to, and including, `tests/test_passoff_80.py` to move on to the next project. Bucket 80 is the minimum functionality to complete the course.
-1. You must implement, with no AI help except syntax and formatting questions, the `lexer` function in `src/project1/lexer.py` using the algorithm discussed in class. See [LEXER.md](docs/LEXER.md) for a complete description of the token types and lexer algorithm along with input to output examples.
+1. You must implement, with no AI help, all the code needed in implement the lexer in `src/project1/lexer.py` using the algorithm discussed in class. See [LEXER.md](docs/LEXER.md) for a complete description of the token types and lexer algorithm along with input to output examples.
 1. All tokens must be detected using FSMs. Regular expression libraries, loops, etc. are not allowed.
 1. You must implement, with no AI help except syntax and formatting questions, the FSMs for the following tokens:
     * `ID`
