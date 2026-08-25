@@ -19,8 +19,8 @@ accept or reject state to know whether or not it reads a prefix of the input and
 how many characters are in that prefix that it can read.
 """
 
+from collections.abc import Callable
 from io import StringIO
-from typing import Callable
 
 from project1.token import Token
 

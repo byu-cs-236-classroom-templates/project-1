@@ -29,13 +29,19 @@ def project1(input_string: str) -> str:
     """
     result: str = ""
     token_count = 0
+    error: bool = False
     for i in lexer(input_string):
         result += str(i) + "\n"
         token_count += 1
         if i.token_type == "UNDEFINED":
-            return result + "\nTotal Tokens = Error on line " + str(i.line_num)
+            error = True
 
-    return result + "Total Tokens = " + str(token_count)
+    suffix: str = (
+        "\nTotal Tokens = Error on line " + str(i.line_num)
+        if error
+        else "Total Tokens = " + str(token_count)
+    )
+    return result + suffix
 
 
 def project1cli() -> None:
